@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperPlugin.ODataCliUi\ReSharperPlugin.ODataCliUi.csproj" />
+    <ProjectReference Include="..\ReSharperPlugin.ODataCliUi\ReSharperPlugin.ODataCliUi.Rider.csproj" />
   </ItemGroup>
 
   <ItemGroup>
