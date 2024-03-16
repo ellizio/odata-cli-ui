@@ -2,7 +2,7 @@
   <id>com.jetbrains.rider.plugins.odatacliui</id>
   <name>ODataCliUi</name>
   <version>_PLACEHOLDER_</version>
-  <vendor url="https://project-url">Author</vendor>
+  <vendor url="https://project-url">ellizio</vendor>
   <idea-version since-build="_PLACEHOLDER_" until-build="_PLACEHOLDER_" />
   <depends>com.intellij.modules.rider</depends>
 
@@ -11,5 +11,12 @@
 <p>Sample description</p>
 ]]>
   </description>
+
+  <actions>
+    <action class="com.jetbrains.rider.plugins.odatacliui.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction" text="OData Reference...">
+      <add-to-group group-id="SolutionViewAddGroup.SpecialSection" anchor="after" relative-to-action="AddWebReferenceAction" />
+      <add-to-group group-id="SolutionExplorerPopupMenuForReferenceFolder" anchor="after" relative-to-action="AddWebReferenceAction" />
+    </action>
+  </actions>
 
 </idea-plugin>
