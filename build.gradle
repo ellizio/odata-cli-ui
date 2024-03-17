@@ -74,6 +74,7 @@ task setBuildTool {
 }
 
 task compileDotNet {
+    dependsOn rdgen
     dependsOn setBuildTool
     doLast {
         def arguments = setBuildTool.args.clone()
