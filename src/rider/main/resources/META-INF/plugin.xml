@@ -13,7 +13,7 @@
   </description>
 
   <actions>
-    <action class="com.jetbrains.rider.plugins.odatacliui.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction" text="OData Reference...">
+    <action class="com.jetbrains.rider.plugins.odatacliui.actions.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction" text="OData Reference...">
       <add-to-group group-id="SolutionViewAddGroup.SpecialSection" anchor="after" relative-to-action="AddWebReferenceAction" />
       <add-to-group group-id="SolutionExplorerPopupMenuForReferenceFolder" anchor="after" relative-to-action="AddWebReferenceAction" />
     </action>

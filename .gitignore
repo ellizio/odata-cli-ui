@@ -6,6 +6,9 @@ output
 .gradle
 .tmp
 
+# Generated files
+**/*.Generated.*
+
 # User-specific files
 *.suo
 *.user
