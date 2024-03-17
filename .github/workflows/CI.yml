@@ -17,6 +17,7 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-Build-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
+      - run: ./gradlew :rdgen --no-daemon
       - run: ./gradlew :buildPlugin --no-daemon
       - uses: actions/upload-artifact@v3
         if: always()
@@ -38,4 +39,5 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-Test-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
+      - run: ./gradlew :rdgen --no-daemon
       - run: ./gradlew :testDotNet --no-daemon
