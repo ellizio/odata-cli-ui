@@ -33,12 +33,16 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 textField()
                     .align(AlignX.FILL)
                     .bindText(model.serviceName)
+                    .validationOnInput(model.validator.serviceNameValidation())
+                    .validationOnApply(model.validator.serviceNameValidation())
             }
             row("Metadata source:") {
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml"))
                     .align(AlignX.FILL)
                     .comment("The URI of the metadata document. The value must be set to a valid service document URI or a local file path", Int.MAX_VALUE)
                     .bindText(model.metadataUri)
+                    .validationOnInput(model.validator.metadataUriValidation())
+                    .validationOnApply(model.validator.metadataUriValidation())
             }.bottomGap(BottomGap.SMALL)
             row {
                 cell(tabbedPane)
@@ -56,12 +60,16 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .emptyText("Default: Reference.cs")
                 .comment("The name of the generated file")
                 .bindText(model.fileName)
+                .validationOnInput(model.validator.fileNameValidation())
+                .validationOnApply(model.validator.fileNameValidation())
         }
         row("--namespace-prefix") {
             textField()
                 .align(AlignX.FILL)
                 .comment("The namespace of the client code generated")
                 .bindText(model.namespacePrefix)
+                .validationOnInput(model.validator.namespacePrefixValidation())
+                .validationOnApply(model.validator.namespacePrefixValidation())
         }
         row("--excluded-operation-imports") {
             textField()

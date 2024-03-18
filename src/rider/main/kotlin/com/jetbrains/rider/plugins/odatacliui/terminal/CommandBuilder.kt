@@ -10,8 +10,8 @@ class CommandBuilder(toolName: String, commandName: String) {
         command.addParameter(commandName)
     }
 
-    fun addIfNotEmpty(parameterName: String, parameterValue: String?): CommandBuilder {
-        if (parameterValue.isNullOrEmpty()) {
+    fun addIfNotBlank(parameterName: String, parameterValue: String?): CommandBuilder {
+        if (parameterValue.isNullOrBlank()) {
             return this
         }
 

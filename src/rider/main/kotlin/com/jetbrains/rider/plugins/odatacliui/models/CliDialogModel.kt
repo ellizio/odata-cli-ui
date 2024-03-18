@@ -8,6 +8,7 @@ import com.jetbrains.rider.model.RdCustomLocation
 import com.jetbrains.rider.model.RdDependencyFolderDescriptor
 import com.jetbrains.rider.model.RdProjectDescriptor
 import com.jetbrains.rider.plugins.odatacliui.extensions.entityForAction
+import com.jetbrains.rider.plugins.odatacliui.models.validators.CliDialogModelValidator
 import com.jetbrains.rider.plugins.odatacliui.terminal.CommandBuilder
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.ProjectModelEntity
@@ -15,6 +16,8 @@ import kotlin.io.path.Path
 
 class CliDialogModel(event: AnActionEvent) {
     private val connectedServicesDir: String
+
+    val validator = CliDialogModelValidator()
 
     val cliVersion: String
 
@@ -63,18 +66,18 @@ class CliDialogModel(event: AnActionEvent) {
     private fun getOutputDir() = Path(connectedServicesDir, serviceName.get()).toString()
 
     fun buildCommand(): GeneralCommandLine = CommandBuilder("odata-cli", "generate")
-        .addIfNotEmpty("--metadata-uri", metadataUri.get())
-        .addIfNotEmpty("--file-name", fileName.get())
-        .addIfNotEmpty("--custom-headers", customHeaders.get())
-        .addIfNotEmpty("--proxy", proxy.get())
-        .addIfNotEmpty("--namespace-prefix", namespacePrefix.get())
-        .addIfNotEmpty("--excluded-operation-imports", excludedOperationImports.get())
-        .addIfNotEmpty("--excluded-bound-operations", excludedBoundOperations.get())
-        .addIfNotEmpty("--excluded-schema-types", excludedSchemaTypes.get())
+        .addIfNotBlank("--metadata-uri", metadataUri.get())
+        .addIfNotBlank("--file-name", fileName.get())
+        .addIfNotBlank("--custom-headers", customHeaders.get())
+        .addIfNotBlank("--proxy", proxy.get())
+        .addIfNotBlank("--namespace-prefix", namespacePrefix.get())
+        .addIfNotBlank("--excluded-operation-imports", excludedOperationImports.get())
+        .addIfNotBlank("--excluded-bound-operations", excludedBoundOperations.get())
+        .addIfNotBlank("--excluded-schema-types", excludedSchemaTypes.get())
         .addFlag("--upper-camel-case", upperCamelCase.get())
         .addFlag("--internal", internal.get())
         .addFlag("--multiple-files", multipleFiles.get())
         .addFlag("--ignore-unexpected-elements", ignoreUnexpectedElements.get())
-        .addIfNotEmpty("--outputdir", getOutputDir())
+        .addIfNotBlank("--outputdir", getOutputDir())
         .build()
 }
