@@ -60,8 +60,6 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .emptyText("Default: Reference.cs")
                 .comment("The name of the generated file")
                 .bindText(model.fileName)
-                .validationOnInput(model.validator.fileNameValidation())
-                .validationOnApply(model.validator.fileNameValidation())
         }
         row("--namespace-prefix") {
             textField()

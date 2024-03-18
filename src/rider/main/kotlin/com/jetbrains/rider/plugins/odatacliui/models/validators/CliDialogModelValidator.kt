@@ -20,15 +20,8 @@ class CliDialogModelValidator {
             null
     }
 
-    fun fileNameValidation(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
-        if (it.text.trim().isNotEmpty() && it.text.contains(' '))
-            error("File name must not contain white spaces")
-        else
-            null
-    }
-
     fun namespacePrefixValidation(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
-        if (it.text.trim().isNotEmpty() && it.text.contains(' '))
+        if (it.text.contains(' '))
             error("Namespace prefix must not contain whitespaces")
         else
             null
