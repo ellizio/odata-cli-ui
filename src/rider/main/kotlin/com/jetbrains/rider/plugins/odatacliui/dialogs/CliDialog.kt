@@ -5,6 +5,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.*
+import com.jetbrains.rider.plugins.odatacliui.extensions.emptyText
 import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
 
@@ -32,12 +33,16 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 textField()
                     .align(AlignX.FILL)
                     .bindText(model.serviceName)
+                    .validationOnInput(model.validator.serviceNameValidation())
+                    .validationOnApply(model.validator.serviceNameValidation())
             }
             row("Metadata source:") {
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml"))
                     .align(AlignX.FILL)
                     .comment("The URI of the metadata document. The value must be set to a valid service document URI or a local file path", Int.MAX_VALUE)
-                    .bindText(model.metadataSource)
+                    .bindText(model.metadataUri)
+                    .validationOnInput(model.validator.metadataUriValidation())
+                    .validationOnApply(model.validator.metadataUriValidation())
             }.bottomGap(BottomGap.SMALL)
             row {
                 cell(tabbedPane)
@@ -52,31 +57,37 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         row("--file-name") {
             textField()
                 .align(AlignX.FILL)
-                .comment("The name of the generated file. If not provided, then the default name 'Reference.cs' is used", Int.MAX_VALUE)
+                .emptyText("Default: Reference.cs")
+                .comment("The name of the generated file")
                 .bindText(model.fileName)
         }
         row("--namespace-prefix") {
             textField()
                 .align(AlignX.FILL)
-                .comment("The namespace of the client code generated. <b>Example: NorthWindService.Client</b> or it could be a name related to the OData endpoint that you are generating code for", Int.MAX_VALUE)
+                .comment("The namespace of the client code generated")
                 .bindText(model.namespacePrefix)
+                .validationOnInput(model.validator.namespacePrefixValidation())
+                .validationOnApply(model.validator.namespacePrefixValidation())
         }
         row("--excluded-operation-imports") {
             textField()
                 .align(AlignX.FILL)
-                .comment("Comma-separated list of the names of operation imports to exclude from the generated code. <b>Example: ExcludedOperationImport1, ExcludedOperationImport2</b>", Int.MAX_VALUE)
+                .emptyText("Example: ExcludedOperationImport1, ExcludedOperationImport2")
+                .comment("Comma-separated list of the names of operation imports to exclude from the generated code")
                 .bindText(model.excludedOperationImports)
         }
         row("--excluded-bound-operations") {
             textField()
                 .align(AlignX.FILL)
-                .comment("Comma-separated list of the names of bound operations to exclude from the generated code. <b>Example: BoundOperation1, BoundOperation2</b>", Int.MAX_VALUE)
+                .emptyText("Example: BoundOperation1, BoundOperation2")
+                .comment("Comma-separated list of the names of bound operations to exclude from the generated code")
                 .bindText(model.excludedBoundOperations)
         }
         row("--excluded-schema-types") {
             textField()
                 .align(AlignX.FILL)
-                .comment("Comma-separated list of the names of entity types to exclude from the generated code. <b>Example: EntityType1, EntityType2, EntityType3</b>", Int.MAX_VALUE)
+                .emptyText("Example: EntityType1, EntityType2, EntityType3")
+                .comment("Comma-separated list of the names of entity types to exclude from the generated code")
                 .bindText(model.excludedSchemaTypes)
         }
         row {
@@ -109,13 +120,15 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         row("--custom-headers") {
             textField()
                 .align(AlignX.FILL)
-                .comment("Headers that will get sent along with the request when fetching the metadata document from the service. <b>Format: Header1:HeaderValue, Header2:HeaderValue</b>", Int.MAX_VALUE)
+                .emptyText("Example: Header1:HeaderValue, Header2:HeaderValue")
+                .comment("Headers that will get sent along with the request when fetching the metadata document from the service", Int.MAX_VALUE)
                 .bindText(model.customHeaders)
         }
         row("--proxy") {
             textField()
                 .align(AlignX.FILL)
-                .comment("Proxy settings. <b>Format: domain\\\\user:password@SERVER:PORT</b>", Int.MAX_VALUE)
+                .emptyText("Example: domain\\\\user:password@SERVER:PORT")
+                .comment("Proxy settings")
                 .bindText(model.proxy)
         }
     }
