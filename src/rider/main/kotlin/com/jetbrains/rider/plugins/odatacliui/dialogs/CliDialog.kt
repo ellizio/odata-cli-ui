@@ -37,7 +37,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml"))
                     .align(AlignX.FILL)
                     .comment("The URI of the metadata document. The value must be set to a valid service document URI or a local file path", Int.MAX_VALUE)
-                    .bindText(model.metadataSource)
+                    .bindText(model.metadataUri)
             }.bottomGap(BottomGap.SMALL)
             row {
                 cell(tabbedPane)
