@@ -5,6 +5,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.*
+import com.jetbrains.rider.plugins.odatacliui.Constants
 import com.jetbrains.rider.plugins.odatacliui.extensions.emptyText
 import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
@@ -12,7 +13,7 @@ import javax.swing.JComponent
 @Suppress("UnstableApiUsage")
 class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
     init {
-        title = "OData Cli UI"
+        title = Constants.PLUGIN_NAME
         init()
     }
 
@@ -26,7 +27,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         return panel {
             row {
                 label(model.cliVersion)
-                    .label("OData Cli Version:")
+                    .label("OData CLI Version:")
                     .comment("Not installed? Follow <a href='https://learn.microsoft.com/en-us/odata/odatacli/getting-started#install'>instruction</a>")
             }.bottomGap(BottomGap.MEDIUM)
             row("Service name:") {
