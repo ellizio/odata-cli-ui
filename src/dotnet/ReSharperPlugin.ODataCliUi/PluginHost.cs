@@ -13,8 +13,8 @@ namespace ReSharperPlugin.ODataCliUi;
 [SolutionComponent]
 public sealed class PluginHost : IDisposable
 {
-    private readonly Tracker _tracker;
     private readonly ProtocolModel _protocolModel;
+    private readonly Tracker _tracker;
 
     public PluginHost(ISolution solution, Tracker tracker)
     {
@@ -30,6 +30,13 @@ public sealed class PluginHost : IDisposable
 
     private void OnDotNetToolCacheChanged(DotNetToolCache cache)
     {
+        var localTool = cache.ToolLocalCache.GetAllLocalTools().FirstOrDefault(t => t.PackageId == Constants.ODataCliPackageId);
+        if (localTool is not null)
+        {
+            _protocolModel.CliVersion.Value = $"Local, {localTool.Version}";
+            return;
+        }
+
         var tool = cache.ToolGlobalCache.GetGlobalTool(Constants.ODataCliPackageId)?.FirstOrDefault();
         if (tool is not null)
         {

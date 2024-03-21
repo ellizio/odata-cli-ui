@@ -1,10 +1,11 @@
 <idea-plugin require-restart="true">
   <id>com.jetbrains.rider.plugins.odatacliui</id>
-  <name>ODataCliUi</name>
+  <name>OData CLI UI</name>
   <version>_PLACEHOLDER_</version>
-  <vendor url="https://project-url">ellizio</vendor>
-  <idea-version since-build="_PLACEHOLDER_" until-build="_PLACEHOLDER_" />
+  <vendor url="https://github.com/Ellizio/rider--plugin--odata-cli-ui">ellizio</vendor>
+  <idea-version since-build="_PLACEHOLDER_" />
   <depends>com.intellij.modules.rider</depends>
+  <depends>org.jetbrains.plugins.terminal</depends>
 
   <description>
 <![CDATA[

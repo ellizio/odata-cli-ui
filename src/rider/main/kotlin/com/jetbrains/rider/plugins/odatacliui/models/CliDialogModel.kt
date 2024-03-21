@@ -1,28 +1,32 @@
 package com.jetbrains.rider.plugins.odatacliui.models
 
-import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.jetbrains.rd.ide.model.protocolModel
 import com.jetbrains.rider.model.RdCustomLocation
 import com.jetbrains.rider.model.RdDependencyFolderDescriptor
 import com.jetbrains.rider.model.RdProjectDescriptor
+import com.jetbrains.rider.plugins.odatacliui.Constants
 import com.jetbrains.rider.plugins.odatacliui.extensions.entityForAction
 import com.jetbrains.rider.plugins.odatacliui.models.validators.CliDialogModelValidator
-import com.jetbrains.rider.plugins.odatacliui.terminal.CommandBuilder
+import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLine
+import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLineBuilder
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.ProjectModelEntity
 import kotlin.io.path.Path
 
 class CliDialogModel(event: AnActionEvent) {
     private val connectedServicesDir: String
+    private val projectName: String
+    private lateinit var projectPath: String
 
     val validator = CliDialogModelValidator()
 
     val cliVersion: String
 
     init {
-        connectedServicesDir = getConnectedServicesDir(event.entityForAction)
+        connectedServicesDir = getConnectedServicesDir(event)
+        projectName = getProjectName(event)
         cliVersion = getCliVersion(event.project!!)
     }
 
@@ -47,37 +51,68 @@ class CliDialogModel(event: AnActionEvent) {
             ?: project.solution.protocolModel.getCliVersion.sync(Unit)
     }
 
-    private fun getConnectedServicesDir(entity: ProjectModelEntity): String {
+    private fun getConnectedServicesDir(action: AnActionEvent): String {
         var projectPath = ""
 
-        val descriptor = entity.descriptor
-        if (descriptor is RdProjectDescriptor && descriptor.location is RdCustomLocation) {
+        val descriptor = prepareEntity(action)?.descriptor ?: return ""
+        if (descriptor.location is RdCustomLocation) {
             val location = descriptor.location as RdCustomLocation
             projectPath = location.customLocation
         }
-        else if (descriptor is RdDependencyFolderDescriptor && entity.parentEntity?.descriptor?.location is RdCustomLocation) {
-            val location = entity.parentEntity!!.descriptor.location as RdCustomLocation
-            projectPath = location.customLocation
+
+        this.projectPath = projectPath
+        return Path(Path(projectPath).parent.toString(), "Connected Services").toString()
+    }
+
+    private fun getProjectName(action: AnActionEvent): String {
+        val entity = prepareEntity(action)
+        return entity?.name ?: ""
+    }
+
+    private fun prepareEntity(action: AnActionEvent): ProjectModelEntity? {
+        val entity = action.entityForAction
+        if (entity.descriptor is RdProjectDescriptor) {
+            return entity
+        }
+        else if (entity.descriptor is RdDependencyFolderDescriptor) {
+            return entity.parentEntity
         }
 
-        return Path(Path(projectPath).parent.toString(), "Connected Services").toString()
+        return null
     }
 
     private fun getOutputDir() = Path(connectedServicesDir, serviceName.get()).toString()
 
-    fun buildCommand(): GeneralCommandLine = CommandBuilder("odata-cli", "generate")
-        .addIfNotBlank("--metadata-uri", metadataUri.get())
-        .addIfNotBlank("--file-name", fileName.get())
-        .addIfNotBlank("--custom-headers", customHeaders.get())
-        .addIfNotBlank("--proxy", proxy.get())
-        .addIfNotBlank("--namespace-prefix", namespacePrefix.get())
-        .addIfNotBlank("--excluded-operation-imports", excludedOperationImports.get())
-        .addIfNotBlank("--excluded-bound-operations", excludedBoundOperations.get())
-        .addIfNotBlank("--excluded-schema-types", excludedSchemaTypes.get())
-        .addFlag("--upper-camel-case", upperCamelCase.get())
-        .addFlag("--internal", internal.get())
-        .addFlag("--multiple-files", multipleFiles.get())
-        .addFlag("--ignore-unexpected-elements", ignoreUnexpectedElements.get())
-        .addIfNotBlank("--outputdir", getOutputDir())
+    fun buildCommand(): BatchCommandLine = BatchCommandLineBuilder()
+        .addCommand("odata-cli", "generate")
+        .withNotBlankParameter("--metadata-uri", metadataUri.get())
+        .withNotBlankParameter("--file-name", fileName.get())
+        .withNotBlankParameter("--custom-headers", customHeaders.get())
+        .withNotBlankParameter("--proxy", proxy.get())
+        .withNotBlankParameter("--namespace-prefix", namespacePrefix.get())
+        .withNotBlankParameter("--excluded-operation-imports", excludedOperationImports.get())
+        .withNotBlankParameter("--excluded-bound-operations", excludedBoundOperations.get())
+        .withNotBlankParameter("--excluded-schema-types", excludedSchemaTypes.get())
+        .withFlag("--upper-camel-case", upperCamelCase.get())
+        .withFlag("--internal", internal.get())
+        .withFlag("--multiple-files", multipleFiles.get())
+        .withFlag("--ignore-unexpected-elements", ignoreUnexpectedElements.get())
+        .withNotBlankParameter("--outputdir", getOutputDir())
+        .addCommand("dotnet", "add")
+        .withParameter(projectPath)
+        .withParameter("package")
+        .withParameter(Constants.MicrosoftODataClientPackageId)
+        .addCommand("dotnet", "add")
+        .withParameter(projectPath)
+        .withParameter("package")
+        .withParameter(Constants.MicrosoftODataCorePackageId)
+        .addCommand("dotnet", "add")
+        .withParameter(projectPath)
+        .withParameter("package")
+        .withParameter(Constants.MicrosoftODataEdmPackageId)
+        .addCommand("dotnet", "add")
+        .withParameter(projectPath)
+        .withParameter("package")
+        .withParameter(Constants.MicrosoftSpatialPackageId)
         .build()
 }
