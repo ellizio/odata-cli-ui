@@ -8,9 +8,15 @@ Rider plugin to generate OData Reference using OData CLI
 
 ## Installation
 
-TODO
+1. Install plugin 
+2. Install latest version of [OData CLI](https://learn.microsoft.com/en-us/odata/odatacli/getting-started#install) tool
 
 ## Usage
 
-1. Install latest version of [OData CLI](https://learn.microsoft.com/en-us/odata/odatacli/getting-started#install) tool
-2. TODO
+1. Open solution
+2. Select `OData Reference...` action under project or Web Reference context menu\
+![](/img/action.png)
+3. Fill required `Service name` and `Metadata source` and other optional parameters according [documentation](https://learn.microsoft.com/en-us/odata/odatacli/getting-started#options-1)\
+![](/img/dialog.png)
+4. Click `OK` and wait until generation finishes
+![](/img/terminal.png)
