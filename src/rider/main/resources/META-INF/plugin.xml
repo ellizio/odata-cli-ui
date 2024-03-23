@@ -6,10 +6,11 @@
   <idea-version since-build="_PLACEHOLDER_" />
   <depends>com.intellij.modules.rider</depends>
   <depends>org.jetbrains.plugins.terminal</depends>
+  <resource-bundle>UiBundle</resource-bundle>
 
   <description>
 <![CDATA[
-<p>Sample description</p>
+<p>Rider plugin that provides UI for OData CLI to generate OData Reference</p>
 ]]>
   </description>
 
@@ -18,7 +19,7 @@
   </extensions>
 
   <actions>
-    <action class="com.jetbrains.rider.plugins.odatacliui.actions.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction" text="OData Reference...">
+    <action class="com.jetbrains.rider.plugins.odatacliui.actions.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction">
       <add-to-group group-id="SolutionViewAddGroup.SpecialSection" anchor="after" relative-to-action="AddWebReferenceAction" />
       <add-to-group group-id="SolutionExplorerPopupMenuForReferenceFolder" anchor="after" relative-to-action="AddWebReferenceAction" />
     </action>
