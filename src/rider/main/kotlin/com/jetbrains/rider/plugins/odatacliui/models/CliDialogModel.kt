@@ -7,6 +7,7 @@ import com.jetbrains.rider.model.RdCustomLocation
 import com.jetbrains.rider.model.RdDependencyFolderDescriptor
 import com.jetbrains.rider.model.RdProjectDescriptor
 import com.jetbrains.rider.plugins.odatacliui.Constants
+import com.jetbrains.rider.plugins.odatacliui.extensions.dotnetAddPackageCommand
 import com.jetbrains.rider.plugins.odatacliui.extensions.entityForAction
 import com.jetbrains.rider.plugins.odatacliui.models.validators.CliDialogModelValidator
 import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLine
@@ -14,6 +15,8 @@ import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLineBuilder
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.ProjectModelEntity
 import kotlin.io.path.Path
+
+private const val CONNECTED_SERVICES = "Connected Services"
 
 class CliDialogModel(event: AnActionEvent) {
     private val connectedServicesDir: String
@@ -61,7 +64,7 @@ class CliDialogModel(event: AnActionEvent) {
         }
 
         this.projectPath = projectPath
-        return Path(Path(projectPath).parent.toString(), "Connected Services").toString()
+        return Path(Path(projectPath).parent.toString(), CONNECTED_SERVICES).toString()
     }
 
     private fun getProjectName(action: AnActionEvent): String {
@@ -98,21 +101,9 @@ class CliDialogModel(event: AnActionEvent) {
         .withFlag("--multiple-files", multipleFiles.get())
         .withFlag("--ignore-unexpected-elements", ignoreUnexpectedElements.get())
         .withNotBlankParameter("--outputdir", getOutputDir())
-        .addCommand("dotnet", "add")
-        .withParameter(projectPath)
-        .withParameter("package")
-        .withParameter(Constants.MicrosoftODataClientPackageId)
-        .addCommand("dotnet", "add")
-        .withParameter(projectPath)
-        .withParameter("package")
-        .withParameter(Constants.MicrosoftODataCorePackageId)
-        .addCommand("dotnet", "add")
-        .withParameter(projectPath)
-        .withParameter("package")
-        .withParameter(Constants.MicrosoftODataEdmPackageId)
-        .addCommand("dotnet", "add")
-        .withParameter(projectPath)
-        .withParameter("package")
-        .withParameter(Constants.MicrosoftSpatialPackageId)
+        .dotnetAddPackageCommand(projectPath, Constants.MICROSOFT_ODATA_CLIENT_PACKAGE_ID)
+        .dotnetAddPackageCommand(projectPath, Constants.MICROSOFT_ODATA_CORE_PACKAGE_ID)
+        .dotnetAddPackageCommand(projectPath, Constants.MICROSOFT_ODATA_EDM_PACKAGE_ID)
+        .dotnetAddPackageCommand(projectPath, Constants.MICROSOFT_SPATIAL_PACKAGE_ID)
         .build()
 }

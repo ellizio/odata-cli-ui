@@ -6,6 +6,7 @@ import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.*
 import com.jetbrains.rider.plugins.odatacliui.Constants
+import com.jetbrains.rider.plugins.odatacliui.UiBundle
 import com.jetbrains.rider.plugins.odatacliui.extensions.emptyText
 import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
@@ -21,26 +22,26 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         val tabbedPane = JBTabbedPane()
         val generationTab = buildGenerationArgumentsTab()
         val requestTab = buildRequestArgumentsTab()
-        tabbedPane.addTab("Generation Arguments", generationTab)
-        tabbedPane.addTab("Request Arguments", requestTab)
+        tabbedPane.addTab(UiBundle.text("cli.tab.generation"), generationTab)
+        tabbedPane.addTab(UiBundle.text("cli.tab.request"), requestTab)
 
         return panel {
             row {
                 label(model.cliVersion)
-                    .label("OData CLI Version:")
-                    .comment("Not installed? Follow <a href='https://learn.microsoft.com/en-us/odata/odatacli/getting-started#install'>instruction</a>")
-            }.bottomGap(BottomGap.MEDIUM)
-            row("Service name:") {
+                    .label(UiBundle.text("cli.cli-version.label"))
+                    .comment(UiBundle.text("cli.cli-version.comment"))
+            }.bottomGap(BottomGap.SMALL)
+            row(UiBundle.text("cli.service-name.row")) {
                 textField()
                     .align(AlignX.FILL)
                     .bindText(model.serviceName)
                     .validationOnInput(model.validator.serviceNameValidation())
                     .validationOnApply(model.validator.serviceNameValidation())
             }
-            row("Metadata source:") {
+            row(UiBundle.text("cli.metadata-source.row")) {
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml"))
                     .align(AlignX.FILL)
-                    .comment("The URI of the metadata document. The value must be set to a valid service document URI or a local file path", Int.MAX_VALUE)
+                    .comment(UiBundle.text("cli.metadata-source.comment"), Int.MAX_VALUE)
                     .bindText(model.metadataUri)
                     .validationOnInput(model.validator.metadataUriValidation())
                     .validationOnApply(model.validator.metadataUriValidation())
@@ -58,14 +59,14 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         row("--file-name") {
             textField()
                 .align(AlignX.FILL)
-                .emptyText("Default: Reference.cs")
-                .comment("The name of the generated file")
+                .emptyText(UiBundle.text("cli.filename.empty-text"))
+                .comment(UiBundle.text("cli.filename.comment"))
                 .bindText(model.fileName)
         }
         row("--namespace-prefix") {
             textField()
                 .align(AlignX.FILL)
-                .comment("The namespace of the client code generated")
+                .comment(UiBundle.text("cli.namespace-prefix.comment"))
                 .bindText(model.namespacePrefix)
                 .validationOnInput(model.validator.namespacePrefixValidation())
                 .validationOnApply(model.validator.namespacePrefixValidation())
@@ -73,46 +74,46 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         row("--excluded-operation-imports") {
             textField()
                 .align(AlignX.FILL)
-                .emptyText("Example: ExcludedOperationImport1, ExcludedOperationImport2")
-                .comment("Comma-separated list of the names of operation imports to exclude from the generated code")
+                .emptyText(UiBundle.text("cli.excluded-operation-imports.empty-text"))
+                .comment(UiBundle.text("cli.excluded-operation-imports.comment"))
                 .bindText(model.excludedOperationImports)
         }
         row("--excluded-bound-operations") {
             textField()
                 .align(AlignX.FILL)
-                .emptyText("Example: BoundOperation1, BoundOperation2")
-                .comment("Comma-separated list of the names of bound operations to exclude from the generated code")
+                .emptyText(UiBundle.text("cli.excluded-bound-operations.empty-text"))
+                .comment(UiBundle.text("cli.excluded-bound-operations.comment"))
                 .bindText(model.excludedBoundOperations)
         }
         row("--excluded-schema-types") {
             textField()
                 .align(AlignX.FILL)
-                .emptyText("Example: EntityType1, EntityType2, EntityType3")
-                .comment("Comma-separated list of the names of entity types to exclude from the generated code")
+                .emptyText(UiBundle.text("cli.excluded-schema-types.empty-text"))
+                .comment(UiBundle.text("cli.excluded-schema-types.comment"))
                 .bindText(model.excludedSchemaTypes)
         }
         row {
             checkBox("--internal")
                 .align(AlignX.FILL)
-                .comment("Applies the internal class modifier on generated classes instead of public thereby making them invisible outside the assembly", Int.MAX_VALUE)
+                .comment(UiBundle.text("cli.internal.comment"), Int.MAX_VALUE)
                 .bindSelected(model.internal)
         }
         row {
             checkBox("--multiple-files")
                 .align(AlignX.FILL)
-                .comment("Split the generated classes into separate files instead of generating all the code in a single file", Int.MAX_VALUE)
+                .comment(UiBundle.text("cli.multiple-files.comment"), Int.MAX_VALUE)
                 .bindSelected(model.multipleFiles)
         }
         row {
             checkBox("--ignore-unexpected-elements")
                 .align(AlignX.FILL)
-                .comment("This flag indicates whether to ignore unexpected elements and attributes in the metadata document and generate the client code if any", Int.MAX_VALUE)
+                .comment(UiBundle.text("cli.ignore-unexpected-elements.comment"), Int.MAX_VALUE)
                 .bindSelected(model.ignoreUnexpectedElements)
         }
         row {
             checkBox("--upper-camel-case")
                 .align(AlignX.FILL)
-                .comment("Transforms names (class and property names) to upper camel-case so that to better conform with C# naming conventions", Int.MAX_VALUE)
+                .comment(UiBundle.text("cli.upper-camel-case.comment"), Int.MAX_VALUE)
                 .bindSelected(model.upperCamelCase)
         }
     }
@@ -121,15 +122,15 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         row("--custom-headers") {
             textField()
                 .align(AlignX.FILL)
-                .emptyText("Example: Header1:HeaderValue, Header2:HeaderValue")
-                .comment("Headers that will get sent along with the request when fetching the metadata document from the service", Int.MAX_VALUE)
+                .emptyText(UiBundle.text("cli.custom-headers.empty-text"))
+                .comment(UiBundle.text("cli.custom-headers.comment"), Int.MAX_VALUE)
                 .bindText(model.customHeaders)
         }
         row("--proxy") {
             textField()
                 .align(AlignX.FILL)
-                .emptyText("Example: domain\\\\user:password@SERVER:PORT")
-                .comment("Proxy settings")
+                .emptyText(UiBundle.text("cli.proxy.empty-text"))
+                .comment(UiBundle.text("cli.proxy.comment"))
                 .bindText(model.proxy)
         }
     }

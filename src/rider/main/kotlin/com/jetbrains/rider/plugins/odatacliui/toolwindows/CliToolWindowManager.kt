@@ -7,6 +7,7 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
+import com.jetbrains.rider.plugins.odatacliui.CliIcons
 import com.jetbrains.rider.plugins.odatacliui.Constants
 
 @Service(Service.Level.PROJECT)
@@ -19,7 +20,7 @@ class CliToolWindowManager(private val project: Project) {
         ToolWindowManager.getInstance(project).registerToolWindow(Constants.PLUGIN_NAME) {
             anchor = ToolWindowAnchor.BOTTOM
             canCloseContent = true
-            // TODO: icon
+            icon = CliIcons.CliToolWindow
         }
     }
 
