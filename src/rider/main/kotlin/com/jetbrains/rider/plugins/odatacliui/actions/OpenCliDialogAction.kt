@@ -12,6 +12,7 @@ import com.jetbrains.rider.plugins.odatacliui.extensions.entityForAction
 import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
 import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLineExecutor
 import com.jetbrains.rider.plugins.odatacliui.toolwindows.CliToolWindowManager
+import com.jetbrains.rider.projectView.actions.isProjectModelReady
 import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder
 
@@ -34,6 +35,11 @@ class OpenCliDialogAction : AnAction() {
 
     override fun update(e: AnActionEvent) {
         val entity = e.entityForAction
+        if (entity == null) {
+            e.presentation.isVisible = false
+            return
+        }
+        e.presentation.isEnabled = e.project?.isProjectModelReady() ?: false
         e.presentation.isVisible = entity.isWebReferenceFolder() || entity.isProject()
     }
 

@@ -73,7 +73,7 @@ class CliDialogModel(event: AnActionEvent) {
     }
 
     private fun prepareEntity(action: AnActionEvent): ProjectModelEntity? {
-        val entity = action.entityForAction
+        val entity = action.entityForAction ?: return null
         if (entity.descriptor is RdProjectDescriptor) {
             return entity
         }
