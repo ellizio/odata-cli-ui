@@ -18,11 +18,15 @@ import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder
 
 class OpenCliDialogAction : AnAction() {
-    override fun actionPerformed(e: AnActionEvent) {
-        val project = e.project ?: return
-        val actionMetadata = e.toMetadata() ?: return
+    override fun actionPerformed(event: AnActionEvent) {
+        val project = event.project ?: return
+        val actionMetadata = event.toMetadata() ?: return
 
         val dialogModel = CliDialogModel(project, actionMetadata)
+
+        // launchOnUi is available since 233.11799.241
+        // RD-2023.3 has build number 233.11799.261
+        @Suppress("MissingRecentApi")
         project.lifetime.launchOnUi {
             val dialog = CliDialog(dialogModel)
             if (dialog.showAndGet()) {
@@ -35,14 +39,14 @@ class OpenCliDialogAction : AnAction() {
 
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
-    override fun update(e: AnActionEvent) {
-        val entity = e.entityForAction
+    override fun update(event: AnActionEvent) {
+        val entity = event.entityForAction
         if (entity == null) {
-            e.presentation.isVisible = false
+            event.presentation.isVisible = false
             return
         }
-        e.presentation.isEnabled = e.project?.isProjectModelReady() ?: false
-        e.presentation.isVisible = entity.isWebReferenceFolder() || entity.isProject()
+        event.presentation.isEnabled = event.project?.isProjectModelReady() ?: false
+        event.presentation.isVisible = entity.isWebReferenceFolder() || entity.isProject()
     }
 
     private suspend fun executeCommand(project: Project, model: CliDialogModel)

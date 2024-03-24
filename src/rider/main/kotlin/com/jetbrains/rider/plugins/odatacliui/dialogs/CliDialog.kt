@@ -11,11 +11,24 @@ import com.jetbrains.rider.plugins.odatacliui.extensions.emptyText
 import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
 
-@Suppress("UnstableApiUsage")
 class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
     init {
         title = Constants.PLUGIN_NAME
+        setOKActionEnabled(true)
         init()
+    }
+
+    override fun setOKActionEnabled(isEnabled: Boolean) {
+        if (!model.cliDefinition.installed) {
+            setOKButtonTooltip(UiBundle.text("cli.ok-action-button.tooltip.not-installed"))
+            super.setOKActionEnabled(false)
+            return
+        }
+        else {
+            setOKButtonTooltip(null)
+        }
+
+        super.setOKActionEnabled(isEnabled)
     }
 
     override fun createCenterPanel(): JComponent {
@@ -27,7 +40,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
 
         return panel {
             row {
-                label(model.cliVersion)
+                label(model.cliDefinition.version ?: UiBundle.text("cli.cli-version.label-value.not-installed"))
                     .label(UiBundle.text("cli.cli-version.label"))
                     .comment(UiBundle.text("cli.cli-version.comment"))
             }.bottomGap(BottomGap.SMALL)
@@ -49,9 +62,6 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
             row {
                 cell(tabbedPane)
             }.resizableRow()
-        }.apply {
-            registerIntegratedPanel(generationTab)
-            registerIntegratedPanel(requestTab)
         }
     }
 
