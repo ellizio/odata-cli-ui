@@ -13,38 +13,39 @@ namespace ReSharperPlugin.ODataCliUi;
 [SolutionComponent]
 public sealed class PluginHost : IDisposable
 {
-    private readonly ProtocolModel _protocolModel;
     private readonly Tracker _tracker;
+    
+    private CliToolDefinition _cliToolDefinition;
 
     public PluginHost(ISolution solution, Tracker tracker)
     {
-        _protocolModel = solution.GetProtocolSolution().GetProtocolModel();
-        _protocolModel.GetCliVersion.SetSync(GetCliVersion);
+        var protocolModel = solution.GetProtocolSolution().GetProtocolModel();
+        protocolModel.GetCliDefinition.SetSync(GetCliDefinition);
         
         _tracker = tracker;
         tracker.DotNetToolCacheChanged += OnDotNetToolCacheChanged;
         tracker.Start();
     }
 
-    private string GetCliVersion(Lifetime lifetime, Unit unit) => _protocolModel.CliVersion.Value;
+    private CliToolDefinition GetCliDefinition(Lifetime lifetime, Unit unit) => _cliToolDefinition;
 
     private void OnDotNetToolCacheChanged(DotNetToolCache cache)
     {
         var localTool = cache.ToolLocalCache.GetAllLocalTools().FirstOrDefault(t => t.PackageId == Constants.ODataCliPackageId);
         if (localTool is not null)
         {
-            _protocolModel.CliVersion.Value = $"Local, {localTool.Version}";
+            _cliToolDefinition = new CliToolDefinition(true, $"Local, {localTool.Version}");
             return;
         }
 
         var tool = cache.ToolGlobalCache.GetGlobalTool(Constants.ODataCliPackageId)?.FirstOrDefault();
         if (tool is not null)
         {
-            _protocolModel.CliVersion.Value = $"Global, {tool.Version}";
+            _cliToolDefinition = new CliToolDefinition(true, $"Global, {tool.Version}");
             return;
         }
 
-        _protocolModel.CliVersion.Value = "Not installed";
+        _cliToolDefinition = new CliToolDefinition(false, null);
     }
 
     public void Dispose()

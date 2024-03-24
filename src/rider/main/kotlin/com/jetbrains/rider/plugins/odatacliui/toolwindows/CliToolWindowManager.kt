@@ -9,6 +9,7 @@ import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
 import com.jetbrains.rider.plugins.odatacliui.CliIcons
 import com.jetbrains.rider.plugins.odatacliui.Constants
+import com.jetbrains.rider.plugins.odatacliui.UiBundle
 
 @Service(Service.Level.PROJECT)
 class CliToolWindowManager(private val project: Project) {
@@ -26,7 +27,7 @@ class CliToolWindowManager(private val project: Project) {
 
     fun instantiateConsole(): ConsoleView {
         val consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).console
-        val content = toolWindow.contentManager.factory.createContent(consoleView.component, "Generate", true)
+        val content = toolWindow.contentManager.factory.createContent(consoleView.component, UiBundle.text("cli.tab.generate"), true)
         toolWindow.contentManager.addContent(content)
         toolWindow.activate {
             toolWindow.contentManager.setSelectedContent(content)

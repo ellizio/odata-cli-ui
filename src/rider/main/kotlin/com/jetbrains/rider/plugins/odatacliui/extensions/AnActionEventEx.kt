@@ -30,7 +30,7 @@ fun AnActionEvent.toMetadata(): ActionMetadata? {
         descriptor = entity.parentEntity!!.descriptor as RdProjectDescriptor
     }
     else {
-        throw IllegalStateException()
+        throw IllegalStateException("Selected item not supported")
     }
 
     val projectPath = (descriptor.location as RdCustomLocation).customLocation
