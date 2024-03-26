@@ -1,7 +1,7 @@
-package com.jetbrains.rider.plugins.odatacliui.extensions
+package ru.ellizio.odatacliui.extensions
 
-import com.jetbrains.rider.plugins.odatacliui.Constants
-import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLineBuilder
+import ru.ellizio.odatacliui.Constants
+import ru.ellizio.odatacliui.terminal.BatchCommandLineBuilder
 
 fun BatchCommandLineBuilder.dotnetAddPackageCommand(csprojPath: String, packageId: String): BatchCommandLineBuilder {
     return addCommand("dotnet", "add")

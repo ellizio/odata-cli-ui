@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui.models.validators
+package ru.ellizio.odatacliui.models.validators
 
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.openapi.ui.ValidationInfo

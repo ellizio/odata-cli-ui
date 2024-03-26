@@ -1,14 +1,14 @@
-package com.jetbrains.rider.plugins.odatacliui.dialogs
+package ru.ellizio.odatacliui.dialogs
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.*
-import com.jetbrains.rider.plugins.odatacliui.Constants
-import com.jetbrains.rider.plugins.odatacliui.UiBundle
-import com.jetbrains.rider.plugins.odatacliui.extensions.emptyText
-import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
+import ru.ellizio.odatacliui.Constants
+import ru.ellizio.odatacliui.UiBundle
+import ru.ellizio.odatacliui.extensions.emptyText
+import ru.ellizio.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
 
 class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {

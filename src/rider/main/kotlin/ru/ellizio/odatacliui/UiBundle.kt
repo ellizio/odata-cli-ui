@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui
+package ru.ellizio.odatacliui
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey

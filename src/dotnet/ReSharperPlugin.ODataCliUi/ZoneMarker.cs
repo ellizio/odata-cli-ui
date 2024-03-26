@@ -3,4 +3,4 @@ using JetBrains.Application.BuildScript.Application.Zones;
 namespace ReSharperPlugin.ODataCliUi;
 
 [ZoneMarker]
-public class ZoneMarker;
+public class ZoneMarker : IODataCliUiZone;

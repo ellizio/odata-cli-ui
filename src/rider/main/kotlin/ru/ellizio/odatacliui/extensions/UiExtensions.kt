@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui.extensions
+package ru.ellizio.odatacliui.extensions
 
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.Cell

@@ -1,10 +1,10 @@
-package com.jetbrains.rider.plugins.odatacliui.extensions
+package ru.ellizio.odatacliui.extensions
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys
 import com.jetbrains.rider.model.RdCustomLocation
 import com.jetbrains.rider.model.RdProjectDescriptor
-import com.jetbrains.rider.plugins.odatacliui.models.ActionMetadata
+import ru.ellizio.odatacliui.models.ActionMetadata
 import com.jetbrains.rider.projectView.views.solutionExplorer.nodes.SolutionExplorerModelNode
 import com.jetbrains.rider.projectView.workspace.ProjectModelEntity
 import com.jetbrains.rider.projectView.workspace.isProject
