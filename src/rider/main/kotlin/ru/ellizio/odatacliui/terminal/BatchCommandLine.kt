@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui.terminal
+package ru.ellizio.odatacliui.terminal
 
 import com.intellij.execution.configurations.GeneralCommandLine
 

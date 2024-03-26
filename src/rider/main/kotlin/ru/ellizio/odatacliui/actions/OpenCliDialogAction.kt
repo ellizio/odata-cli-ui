@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui.actions
+package ru.ellizio.odatacliui.actions
 
 import com.intellij.execution.ui.ConsoleView
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -7,12 +7,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.rd.util.*
 import com.intellij.openapi.vfs.VirtualFileManager
-import com.jetbrains.rider.plugins.odatacliui.dialogs.CliDialog
-import com.jetbrains.rider.plugins.odatacliui.extensions.entityForAction
-import com.jetbrains.rider.plugins.odatacliui.extensions.toMetadata
-import com.jetbrains.rider.plugins.odatacliui.models.CliDialogModel
-import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLineExecutor
-import com.jetbrains.rider.plugins.odatacliui.toolwindows.CliToolWindowManager
+import ru.ellizio.odatacliui.dialogs.CliDialog
+import ru.ellizio.odatacliui.extensions.entityForAction
+import ru.ellizio.odatacliui.extensions.toMetadata
+import ru.ellizio.odatacliui.models.CliDialogModel
+import ru.ellizio.odatacliui.terminal.BatchCommandLineExecutor
+import ru.ellizio.odatacliui.toolwindows.CliToolWindowManager
 import com.jetbrains.rider.projectView.actions.isProjectModelReady
 import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder

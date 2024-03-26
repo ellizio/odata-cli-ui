@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui.models
+package ru.ellizio.odatacliui.models
 
 import com.intellij.ui.dsl.builder.MutableProperty
 

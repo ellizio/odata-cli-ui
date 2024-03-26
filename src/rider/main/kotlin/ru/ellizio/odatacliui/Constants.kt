@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui
+package ru.ellizio.odatacliui
 
 object Constants {
     const val MICROSOFT_ODATA_CLIENT_PACKAGE_ID = "Microsoft.OData.Client"

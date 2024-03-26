@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.odatacliui.toolwindows
+package ru.ellizio.odatacliui.toolwindows
 
 import com.intellij.execution.filters.TextConsoleBuilderFactory
 import com.intellij.execution.ui.ConsoleView
@@ -7,9 +7,9 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
-import com.jetbrains.rider.plugins.odatacliui.CliIcons
-import com.jetbrains.rider.plugins.odatacliui.Constants
-import com.jetbrains.rider.plugins.odatacliui.UiBundle
+import ru.ellizio.odatacliui.CliIcons
+import ru.ellizio.odatacliui.Constants
+import ru.ellizio.odatacliui.UiBundle
 
 @Service(Service.Level.PROJECT)
 class CliToolWindowManager(private val project: Project) {

@@ -19,7 +19,7 @@
   </extensions>
 
   <actions>
-    <action class="com.jetbrains.rider.plugins.odatacliui.actions.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction">
+    <action class="ru.ellizio.odatacliui.actions.OpenCliDialogAction" id="odatacliui.OpenCliDialogAction">
       <add-to-group group-id="SolutionViewAddGroup.SpecialSection" anchor="after" relative-to-action="AddWebReferenceAction" />
       <add-to-group group-id="SolutionExplorerPopupMenuForReferenceFolder" anchor="after" relative-to-action="AddWebReferenceAction" />
     </action>

@@ -1,13 +1,13 @@
-package com.jetbrains.rider.plugins.odatacliui.models
+package ru.ellizio.odatacliui.models
 
 import com.intellij.openapi.project.Project
 import com.jetbrains.rd.ide.model.CliToolDefinition
 import com.jetbrains.rd.ide.model.protocolModel
-import com.jetbrains.rider.plugins.odatacliui.Constants
-import com.jetbrains.rider.plugins.odatacliui.extensions.dotnetAddPackageCommand
-import com.jetbrains.rider.plugins.odatacliui.models.validators.CliDialogModelValidator
-import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLine
-import com.jetbrains.rider.plugins.odatacliui.terminal.BatchCommandLineBuilder
+import ru.ellizio.odatacliui.Constants
+import ru.ellizio.odatacliui.extensions.dotnetAddPackageCommand
+import ru.ellizio.odatacliui.models.validators.CliDialogModelValidator
+import ru.ellizio.odatacliui.terminal.BatchCommandLine
+import ru.ellizio.odatacliui.terminal.BatchCommandLineBuilder
 import com.jetbrains.rider.projectView.solution
 import kotlin.io.path.Path
 
