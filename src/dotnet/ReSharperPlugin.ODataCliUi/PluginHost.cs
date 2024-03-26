@@ -15,37 +15,37 @@ public sealed class PluginHost : IDisposable
 {
     private readonly Tracker _tracker;
     
-    private CliToolDefinition _cliToolDefinition;
+    private CliTool _odataCliTool;
 
     public PluginHost(ISolution solution, Tracker tracker)
     {
         var protocolModel = solution.GetProtocolSolution().GetProtocolModel();
-        protocolModel.GetCliDefinition.SetSync(GetCliDefinition);
+        protocolModel.GetODataCliTool.SetSync(GetODataCliTool);
         
         _tracker = tracker;
         tracker.DotNetToolCacheChanged += OnDotNetToolCacheChanged;
         tracker.Start();
     }
 
-    private CliToolDefinition GetCliDefinition(Lifetime lifetime, Unit unit) => _cliToolDefinition;
+    private CliTool GetODataCliTool(Lifetime lifetime, Unit unit) => _odataCliTool;
 
     private void OnDotNetToolCacheChanged(DotNetToolCache cache)
     {
         var localTool = cache.ToolLocalCache.GetAllLocalTools().FirstOrDefault(t => t.PackageId == Constants.ODataCliPackageId);
         if (localTool is not null)
         {
-            _cliToolDefinition = new CliToolDefinition(true, $"Local, {localTool.Version}");
+            _odataCliTool = new CliTool(true, $"Local, {localTool.Version}");
             return;
         }
 
         var tool = cache.ToolGlobalCache.GetGlobalTool(Constants.ODataCliPackageId)?.FirstOrDefault();
         if (tool is not null)
         {
-            _cliToolDefinition = new CliToolDefinition(true, $"Global, {tool.Version}");
+            _odataCliTool = new CliTool(true, $"Global, {tool.Version}");
             return;
         }
 
-        _cliToolDefinition = new CliToolDefinition(false, null);
+        _odataCliTool = new CliTool(false, null);
     }
 
     public void Dispose()
