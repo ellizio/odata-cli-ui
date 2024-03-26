@@ -22,7 +22,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: ${{ github.event.repository.name }}.CI.${{ github.ref_name }}
+          name: ${{ github.event.repository.name }}.CI.${{ github.ref_name//\//- }}
           path: output
   Test:
     runs-on: ubuntu-latest
