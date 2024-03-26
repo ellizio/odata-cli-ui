@@ -1,7 +1,7 @@
 package ru.ellizio.odatacliui.models
 
 import com.intellij.openapi.project.Project
-import com.jetbrains.rd.ide.model.CliToolDefinition
+import com.jetbrains.rd.ide.model.CliTool
 import com.jetbrains.rd.ide.model.protocolModel
 import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.extensions.dotnetAddPackageCommand
@@ -16,10 +16,10 @@ private const val CONNECTED_SERVICES = "Connected Services"
 class CliDialogModel(project: Project, private val actionMetadata: ActionMetadata) {
     val validator = CliDialogModelValidator()
 
-    val cliDefinition: CliToolDefinition
+    val odataCliTool: CliTool
 
     init {
-        cliDefinition = project.solution.protocolModel.getCliDefinition.sync(Unit)
+        odataCliTool = project.solution.protocolModel.getODataCliTool.sync(Unit)
     }
 
     val serviceName = MutableProperty("")

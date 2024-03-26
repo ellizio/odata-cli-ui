@@ -19,7 +19,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
     }
 
     override fun setOKActionEnabled(isEnabled: Boolean) {
-        if (!model.cliDefinition.installed) {
+        if (!model.odataCliTool.installed) {
             setOKButtonTooltip(UiBundle.text("cli.ok-action-button.tooltip.not-installed"))
             super.setOKActionEnabled(false)
             return
@@ -40,7 +40,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
 
         return panel {
             row {
-                label(model.cliDefinition.version ?: UiBundle.text("cli.cli-version.label-value.not-installed"))
+                label(model.odataCliTool.version ?: UiBundle.text("cli.cli-version.label-value.not-installed"))
                     .label(UiBundle.text("cli.cli-version.label"))
                     .comment(UiBundle.text("cli.cli-version.comment"))
             }.bottomGap(BottomGap.SMALL)
