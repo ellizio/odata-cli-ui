@@ -1,8 +1,8 @@
 package ru.ellizio.odatacliui.dialogs
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.*
 import ru.ellizio.odatacliui.Constants
@@ -12,10 +12,19 @@ import ru.ellizio.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
 
 class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
+    private lateinit var generationTabPanel: DialogPanel
+    private lateinit var requestTabPanel: DialogPanel
+
     init {
         title = Constants.PLUGIN_NAME
         setOKActionEnabled(true)
         init()
+    }
+
+    override fun applyFields() {
+        generationTabPanel.apply()
+        requestTabPanel.apply()
+        super.applyFields()
     }
 
     override fun setOKActionEnabled(isEnabled: Boolean) {
@@ -126,6 +135,9 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .comment(UiBundle.text("cli.upper-camel-case.comment"), Int.MAX_VALUE)
                 .bindSelected(model.upperCamelCase)
         }
+    }.apply {
+        registerValidators(disposable)
+        generationTabPanel = this
     }
 
     private fun buildRequestArgumentsTab(): DialogPanel = panel {
@@ -143,5 +155,8 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .comment(UiBundle.text("cli.proxy.comment"))
                 .bindText(model.proxy)
         }
+    }.apply {
+        registerValidators(disposable)
+        requestTabPanel = this
     }
 }
