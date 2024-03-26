@@ -11,6 +11,9 @@
   <description>
 <![CDATA[
 <p>Rider plugin that provides UI for OData CLI to generate OData Reference</p>
+
+<a href="https://github.com/ellizio/rider--plugin--odata-cli-ui">Source code</a> |
+<a href="https://learn.microsoft.com/en-us/odata/odatacli/getting-started">OData CLI</a>
 ]]>
   </description>
 
