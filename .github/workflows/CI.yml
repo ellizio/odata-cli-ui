@@ -19,10 +19,16 @@ jobs:
           key: ${{ runner.os }}-Build-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
       - run: ./gradlew :rdgen --no-daemon
       - run: ./gradlew :buildPlugin --no-daemon
+      - uses: mad9000/actions-find-and-replace-string@5
+        id: fix_branch_name
+        with:
+          source: ${{ github.ref_name }}
+          find: '/'
+          replace: '-'
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: ${{ github.event.repository.name }}.CI.${{ github.ref_name//\//- }}
+          name: ${{ github.event.repository.name }}.CI.${{ steps.fix_branch_name.outputs.value }}
           path: output
   Test:
     runs-on: ubuntu-latest
