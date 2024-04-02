@@ -10,7 +10,13 @@ object ProtocolModel : Ext(SolutionModel.Solution) {
         field("version", PredefinedType.string.nullable)
     }
 
+    private val EmbeddedResourceDefinition = structdef {
+        field("projectName", PredefinedType.string)
+        field("include", PredefinedType.string)
+    }
+
     init {
         call("getODataCliTool", PredefinedType.void, CliTool)
+        call("addEmbeddedResource", EmbeddedResourceDefinition, PredefinedType.void)
     }
 }

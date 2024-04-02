@@ -1,6 +1,7 @@
-package ru.ellizio.odatacliui.terminal
+package ru.ellizio.odatacliui.terminal.builders
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import ru.ellizio.odatacliui.terminal.BatchCommandLine
 
 class BatchCommandLineBuilder {
     private var commandsCount = 0

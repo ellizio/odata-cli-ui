@@ -1,7 +1,7 @@
 package ru.ellizio.odatacliui.extensions
 
 import ru.ellizio.odatacliui.Constants
-import ru.ellizio.odatacliui.terminal.BatchCommandLineBuilder
+import ru.ellizio.odatacliui.terminal.builders.BatchCommandLineBuilder
 
 fun BatchCommandLineBuilder.dotnetAddPackageCommand(csprojPath: String, packageId: String): BatchCommandLineBuilder {
     return addCommand("dotnet", "add")
