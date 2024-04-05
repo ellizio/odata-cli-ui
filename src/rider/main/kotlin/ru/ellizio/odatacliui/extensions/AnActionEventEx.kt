@@ -35,5 +35,5 @@ fun AnActionEvent.toMetadata(): ActionMetadata? {
 
     val projectPath = (descriptor.location as RdCustomLocation).customLocation
 
-    return ActionMetadata(projectPath)
+    return ActionMetadata(descriptor.name, projectPath)
 }

@@ -1,4 +1,4 @@
-package ru.ellizio.odatacliui.terminal
+package ru.ellizio.odatacliui.terminal.executors
 
 import com.intellij.execution.process.ProcessAdapter
 import com.intellij.execution.process.ProcessEvent
@@ -7,6 +7,7 @@ import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.jetbrains.rider.run.TerminalProcessHandler
+import ru.ellizio.odatacliui.terminal.BatchCommandLine
 
 class BatchCommandLineExecutor(
     private val project: Project,

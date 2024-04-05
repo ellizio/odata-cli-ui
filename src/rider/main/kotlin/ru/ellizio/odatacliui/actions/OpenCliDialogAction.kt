@@ -7,15 +7,20 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.rd.util.*
 import com.intellij.openapi.vfs.VirtualFileManager
+import com.jetbrains.rd.ide.model.EmbeddedResourceDefinition
+import com.jetbrains.rd.ide.model.protocolModel
 import ru.ellizio.odatacliui.dialogs.CliDialog
 import ru.ellizio.odatacliui.extensions.entityForAction
 import ru.ellizio.odatacliui.extensions.toMetadata
 import ru.ellizio.odatacliui.models.CliDialogModel
-import ru.ellizio.odatacliui.terminal.BatchCommandLineExecutor
+import ru.ellizio.odatacliui.terminal.executors.BatchCommandLineExecutor
 import ru.ellizio.odatacliui.toolwindows.CliToolWindowManager
 import com.jetbrains.rider.projectView.actions.isProjectModelReady
+import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder
+import ru.ellizio.odatacliui.models.ActionMetadata
+import ru.ellizio.odatacliui.terminal.executors.CommandLineExecutor
 
 class OpenCliDialogAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
@@ -31,7 +36,7 @@ class OpenCliDialogAction : AnAction() {
             val dialog = CliDialog(dialogModel)
             if (dialog.showAndGet()) {
                 withBackgroundContext {
-                    executeCommand(project, dialogModel)
+                    executeCommand(project, actionMetadata, dialogModel)
                 }
             }
         }
@@ -49,15 +54,24 @@ class OpenCliDialogAction : AnAction() {
         event.presentation.isVisible = entity.isWebReferenceFolder() || entity.isProject()
     }
 
-    private suspend fun executeCommand(project: Project, model: CliDialogModel)
+    private suspend fun executeCommand(project: Project, metadata: ActionMetadata, model: CliDialogModel)
     {
         var consoleView: ConsoleView? = null
         withUiContext {
             consoleView = CliToolWindowManager.getInstance(project).instantiateConsole()
         }
 
-        val executor = BatchCommandLineExecutor(project, model.buildCommand(), consoleView!!)
-        executor.execute()
+        val odataCliExecutor = CommandLineExecutor(project, model.buildODataCliCommand(), consoleView!!)
+        val success = odataCliExecutor.execute()
+        if (!success)
+            return
+
+        project.lifetime.launchOnUi {
+            project.solution.protocolModel.addEmbeddedResource.startSuspending(project.lifetime, EmbeddedResourceDefinition(metadata.projectName, model.getCsdlPath()))
+        }
+
+        val nugetExecutor = BatchCommandLineExecutor(project, model.buildNuGetCommand(), consoleView!!)
+        nugetExecutor.execute()
 
         VirtualFileManager.getInstance().refreshWithoutFileWatcher(true)
     }
