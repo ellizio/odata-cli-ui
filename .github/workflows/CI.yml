@@ -26,7 +26,7 @@ jobs:
           find: '/'
           replace: '-'
       - uses: actions/upload-artifact@v3
-        if: always()
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/head/release/')
         with:
           name: ${{ github.event.repository.name }}.CI.${{ steps.fix_branch_name.outputs.value }}
           path: output
