@@ -18,7 +18,7 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-Build-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
       - run: ./gradlew :rdgen --no-daemon
-      - run: ./gradlew :buildPlugin --no-daemon
+      - run: ./gradlew :buildPlugin -PbuildConfiguration=Release --no-daemon
       - uses: mad9000/actions-find-and-replace-string@5
         id: fix_branch_name
         with:
