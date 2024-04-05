@@ -14,7 +14,7 @@ jobs:
           submodules: recursive
       - run: ./gradlew :rdgen
       - run: ./gradlew :buildPlugin -PBuildConfiguration=Release
-      - run: ./gradlew :signPlugin
+      - run: ./gradlew :signPlugin -PBuildConfiguration=Release
         env:
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
