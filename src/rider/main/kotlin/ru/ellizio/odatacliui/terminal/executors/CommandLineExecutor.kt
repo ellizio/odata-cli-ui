@@ -23,9 +23,16 @@ class CommandLineExecutor(
             override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
                 val contentType = ConsoleViewContentType.getConsoleViewType(outputType)
                 if (contentType == ConsoleViewContentType.ERROR_OUTPUT)
-                    hasError = true;
+                    hasError = true
 
                 consoleView.print(event.text, contentType)
+            }
+
+            override fun processTerminated(event: ProcessEvent) {
+                if (event.exitCode != 0)
+                    hasError = true;
+
+                super.processTerminated(event)
             }
         }
 

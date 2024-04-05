@@ -25,9 +25,6 @@ public class ProjectModifier
     
     public void AddEmbeddedResource(string include)
     {
-        _host.EditProject(_mark, session =>
-        {
-            session.AddItem(_mark, EmbeddedResource, include);
-        });
+        _host.EditProject(_mark, session => session.AddItem(_mark, EmbeddedResource, include));
     }
 }

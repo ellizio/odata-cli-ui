@@ -8,8 +8,8 @@ Rider plugin to generate OData Reference using OData CLI
 
 ## Installation
 
-1. Install plugin 
-2. Install latest version of [OData CLI](https://learn.microsoft.com/en-us/odata/odatacli/getting-started#install) tool
+1. Install plugin
+2. Install the latest version of the OData CLI tool with the command `dotnet tool install -g Microsoft.OData.Cli`
 
 ## Usage
 
@@ -20,3 +20,11 @@ Rider plugin to generate OData Reference using OData CLI
 ![](/img/dialog.png)
 4. Click `OK` and wait until generation finishes
 ![](/img/terminal.png)
+
+## ⚠️ Known Restrictions
+
+TODO
+
+## Additional References
+
+- [OData CLI](https://learn.microsoft.com/en-us/odata/odatacli/getting-started)

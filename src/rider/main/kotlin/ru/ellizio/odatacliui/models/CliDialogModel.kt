@@ -4,6 +4,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.jetbrains.rd.ide.model.CliTool
 import com.jetbrains.rd.ide.model.protocolModel
+import com.jetbrains.rider.model.dotNetActiveRuntimeModel
 import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.extensions.dotnetAddPackageCommand
 import ru.ellizio.odatacliui.models.validators.CliDialogModelValidator
@@ -11,6 +12,7 @@ import ru.ellizio.odatacliui.terminal.BatchCommandLine
 import ru.ellizio.odatacliui.terminal.builders.BatchCommandLineBuilder
 import com.jetbrains.rider.projectView.solution
 import ru.ellizio.odatacliui.terminal.builders.CommandLineBuilder
+import ru.ellizio.odatacliui.utils.DotnetToolsUtils
 import kotlin.io.path.Path
 
 private const val CONNECTED_SERVICES = "Connected Services"
@@ -20,9 +22,11 @@ class CliDialogModel(project: Project, private val actionMetadata: ActionMetadat
     val validator = CliDialogModelValidator()
 
     val odataCliTool: CliTool
+    val dotnetCliPath: String?
 
     init {
         odataCliTool = project.solution.protocolModel.getODataCliTool.sync(Unit)
+        dotnetCliPath = project.solution.dotNetActiveRuntimeModel.activeRuntime.valueOrNull?.dotNetCliExePath
     }
 
     val serviceName = MutableProperty("")
@@ -45,26 +49,26 @@ class CliDialogModel(project: Project, private val actionMetadata: ActionMetadat
 
     fun getCsdlPath(): String = Path(CONNECTED_SERVICES, serviceName.get(), CSDL_NAME).toString()
 
-    fun buildODataCliCommand(): GeneralCommandLine = CommandLineBuilder("odata-cli", "generate")
-        .withNotBlankParameter("--metadata-uri", metadataUri.get())
-        .withNotBlankParameter("--file-name", fileName.get())
-        .withNotBlankParameter("--custom-headers", customHeaders.get())
-        .withNotBlankParameter("--proxy", proxy.get())
-        .withNotBlankParameter("--namespace-prefix", namespacePrefix.get())
-        .withNotBlankParameter("--excluded-operation-imports", excludedOperationImports.get())
-        .withNotBlankParameter("--excluded-bound-operations", excludedBoundOperations.get())
-        .withNotBlankParameter("--excluded-schema-types", excludedSchemaTypes.get())
+    fun buildODataCliCommand(): GeneralCommandLine = CommandLineBuilder(DotnetToolsUtils.getToolDefaultPath("odata-cli"), "generate")
+        .withParameter("--metadata-uri", metadataUri.get())
+        .withParameter("--file-name", fileName.get())
+        .withParameter("--custom-headers", customHeaders.get())
+        .withParameter("--proxy", proxy.get())
+        .withParameter("--namespace-prefix", namespacePrefix.get())
+        .withParameter("--excluded-operation-imports", excludedOperationImports.get())
+        .withParameter("--excluded-bound-operations", excludedBoundOperations.get())
+        .withParameter("--excluded-schema-types", excludedSchemaTypes.get())
         .withFlag("--upper-camel-case", upperCamelCase.get())
         .withFlag("--internal", internal.get())
         .withFlag("--multiple-files", multipleFiles.get())
         .withFlag("--ignore-unexpected-elements", ignoreUnexpectedElements.get())
-        .withNotBlankParameter("--outputdir", getOutputDirectory())
+        .withParameter("--outputdir", getOutputDirectory())
         .build()
 
     fun buildNuGetCommand(): BatchCommandLine = BatchCommandLineBuilder()
-        .dotnetAddPackageCommand(actionMetadata.projectPath, Constants.MICROSOFT_ODATA_CLIENT_PACKAGE_ID)
-        .dotnetAddPackageCommand(actionMetadata.projectPath, Constants.MICROSOFT_ODATA_CORE_PACKAGE_ID)
-        .dotnetAddPackageCommand(actionMetadata.projectPath, Constants.MICROSOFT_ODATA_EDM_PACKAGE_ID)
-        .dotnetAddPackageCommand(actionMetadata.projectPath, Constants.MICROSOFT_SPATIAL_PACKAGE_ID)
+        .dotnetAddPackageCommand(dotnetCliPath, actionMetadata.projectPath, Constants.MICROSOFT_ODATA_CLIENT_PACKAGE_ID)
+        .dotnetAddPackageCommand(dotnetCliPath, actionMetadata.projectPath, Constants.MICROSOFT_ODATA_CORE_PACKAGE_ID)
+        .dotnetAddPackageCommand(dotnetCliPath, actionMetadata.projectPath, Constants.MICROSOFT_ODATA_EDM_PACKAGE_ID)
+        .dotnetAddPackageCommand(dotnetCliPath, actionMetadata.projectPath, Constants.MICROSOFT_SPATIAL_PACKAGE_ID)
         .build()
 }

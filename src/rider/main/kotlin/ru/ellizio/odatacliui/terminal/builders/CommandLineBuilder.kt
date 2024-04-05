@@ -11,12 +11,7 @@ class CommandLineBuilder(toolName: String, commandName: String) {
         command.addParameter(commandName)
     }
 
-    fun withParameter(parameter: String): CommandLineBuilder {
-        command.addParameter(parameter)
-        return this
-    }
-
-    fun withNotBlankParameter(parameterName: String, parameterValue: String?): CommandLineBuilder {
+    fun withParameter(parameterName: String, parameterValue: String?): CommandLineBuilder {
         if (parameterValue.isNullOrBlank())
             return this
 
@@ -29,11 +24,6 @@ class CommandLineBuilder(toolName: String, commandName: String) {
             return this
 
         command.addParameter(parameterName)
-        return this
-    }
-
-    fun withEnvironmentVariable(variableName: String, value: String): CommandLineBuilder {
-        command.withEnvironment(variableName, value)
         return this
     }
 
