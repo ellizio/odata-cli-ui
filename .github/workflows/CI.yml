@@ -28,7 +28,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: github.ref_name == 'master' || github.ref_name == 'dev'
         with:
-          name: $odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}.${{ github.run_number }}
+          name: $odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}-${{ github.run_number }}
           path: output
   Test:
     runs-on: ubuntu-latest
