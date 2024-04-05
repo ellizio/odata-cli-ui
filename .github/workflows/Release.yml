@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*-*.*'
+
+jobs:
+  Release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: ./gradlew :rdgen
+      - run: ./gradlew :buildPlugin -PBuildConfiguration=Release
+      - run: ./gradlew :signPlugin -PBuildConfiguration=Release
+        env:
+          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+      - uses: mad9000/actions-find-and-replace-string@5
+        id: fix_branch_name
+        with:
+          source: ${{ github.ref_name }}
+          find: 'release/'
+          replace: ''
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}
+          path: output
