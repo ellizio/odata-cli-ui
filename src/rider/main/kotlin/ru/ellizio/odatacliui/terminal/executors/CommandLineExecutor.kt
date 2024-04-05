@@ -14,10 +14,10 @@ class CommandLineExecutor(
     private val commandLine: GeneralCommandLine,
     private val consoleView: ConsoleView) {
 
-    private val newLine = System.lineSeparator() + System.lineSeparator();
+    private val newLine = System.lineSeparator() + System.lineSeparator()
 
     fun execute(): Boolean {
-        var hasError = false;
+        var hasError = false
 
         val listener = object : ProcessAdapter() {
             override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
@@ -30,7 +30,7 @@ class CommandLineExecutor(
 
             override fun processTerminated(event: ProcessEvent) {
                 if (event.exitCode != 0)
-                    hasError = true;
+                    hasError = true
 
                 super.processTerminated(event)
             }
