@@ -27,4 +27,5 @@ TODO
 
 ## Additional References
 
+- [Changelog](https://github.com/ellizio/rider--plugin--odata-cli-ui/blob/master/CHANGELOG.md)
 - [OData CLI](https://learn.microsoft.com/en-us/odata/odatacli/getting-started)
