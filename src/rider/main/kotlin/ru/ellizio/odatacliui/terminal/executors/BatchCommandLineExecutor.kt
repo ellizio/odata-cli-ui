@@ -14,7 +14,7 @@ class BatchCommandLineExecutor(
     private val batchCommandLine: BatchCommandLine,
     private val consoleView: ConsoleView) {
 
-    private val newLine = System.lineSeparator() + System.lineSeparator();
+    private val newLine = System.lineSeparator() + System.lineSeparator()
 
     fun execute() {
         val listener = object : ProcessAdapter() {
