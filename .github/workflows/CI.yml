@@ -18,7 +18,7 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-Build-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
       - run: ./gradlew :rdgen --no-daemon
-      - run: ./gradlew :buildPlugin --no-daemon
+      - run: ./gradlew :buildPlugin -PBuildConfiguration=Release --no-daemon
       - uses: mad9000/actions-find-and-replace-string@5
         id: fix_branch_name
         with:
@@ -26,9 +26,9 @@ jobs:
           find: '/'
           replace: '-'
       - uses: actions/upload-artifact@v3
-        if: always()
+        if: github.ref_name == 'master' || github.ref_name == 'dev'
         with:
-          name: ${{ github.event.repository.name }}.CI.${{ steps.fix_branch_name.outputs.value }}
+          name: $odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}-${{ github.run_number }}
           path: output
   Test:
     runs-on: ubuntu-latest

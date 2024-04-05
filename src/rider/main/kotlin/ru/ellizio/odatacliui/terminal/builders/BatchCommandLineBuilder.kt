@@ -1,6 +1,7 @@
-package ru.ellizio.odatacliui.terminal
+package ru.ellizio.odatacliui.terminal.builders
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import ru.ellizio.odatacliui.terminal.BatchCommandLine
 
 class BatchCommandLineBuilder {
     private var commandsCount = 0
@@ -27,7 +28,7 @@ class BatchCommandLineBuilder {
         return this
     }
 
-    fun withNotBlankParameter(parameterName: String, parameterValue: String?): BatchCommandLineBuilder {
+    fun withParameter(parameterName: String, parameterValue: String?): BatchCommandLineBuilder {
         if (command == null)
             throw IllegalStateException()
 
@@ -35,17 +36,6 @@ class BatchCommandLineBuilder {
             return this
 
         command!!.addParameters(parameterName, parameterValue)
-        return this
-    }
-
-    fun withFlag(parameterName: String, parameterValue: Boolean): BatchCommandLineBuilder {
-        if (command == null)
-            throw IllegalStateException()
-
-        if (!parameterValue)
-            return this
-
-        command!!.addParameter(parameterName)
         return this
     }
 
