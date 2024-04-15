@@ -209,11 +209,7 @@ prepareSandbox {
 
 runPluginVerifier {
     ideVersions = [
-            "RD-2023.3",
-            "RD-2023.3.1",
-            "RD-2023.3.2",
-            "RD-2023.3.3",
-            "RD-2023.3.4"
+            "RD-2024.1"
     ]
 }
 
