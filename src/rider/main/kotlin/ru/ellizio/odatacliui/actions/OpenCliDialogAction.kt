@@ -19,6 +19,7 @@ import com.jetbrains.rider.projectView.actions.isProjectModelReady
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder
+import ru.ellizio.odatacliui.extensions.printCommandError
 import ru.ellizio.odatacliui.models.ActionMetadata
 import ru.ellizio.odatacliui.terminal.executors.CommandLineExecutor
 
@@ -61,10 +62,17 @@ class OpenCliDialogAction : AnAction() {
             consoleView = CliToolWindowManager.getInstance(project).instantiateConsole()
         }
 
-        val odataCliExecutor = CommandLineExecutor(project, model.buildODataCliCommand(), consoleView!!)
-        val success = odataCliExecutor.execute()
-        if (!success)
+        val odataCliCommand = model.buildODataCliCommand()
+        try {
+            val odataCliExecutor = CommandLineExecutor(project, odataCliCommand, consoleView!!)
+            val success = odataCliExecutor.execute()
+            if (!success)
+                return
+        }
+        catch (t: Throwable) {
+            consoleView!!.printCommandError(t, odataCliCommand.commandLineString)
             return
+        }
 
         // launchOnUi is available since 233.11799.241
         // RD-2023.3 has build number 233.11799.261
