@@ -1,6 +1,6 @@
 # <p align="center"> OData CLI UI </p>
 
-<p align="center"> Rider plugin that provide UI to generate OData Reference using OData CLI </p>
+<p align="center"> Rider plugin that provides UI to generate OData Reference using OData CLI </p>
 
 <p align="center">
   <a href="https://plugins.jetbrains.com/plugin/24117-odata-cli-ui" target="_blank">
@@ -12,7 +12,7 @@
 
 ## Installation
 
-1. Install plugin
+1. Install plugin from [Marketplace](https://plugins.jetbrains.com/plugin/24117-odata-cli-ui) or download from [Releases page](https://github.com/ellizio/rider--plugin--odata-cli-ui/releases) and install manually
 2. Install the latest version of the OData CLI tool with the command `dotnet tool install -g Microsoft.OData.Cli`
 
 ## Usage
