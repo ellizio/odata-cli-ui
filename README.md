@@ -1,6 +1,6 @@
 # <p align="center"> OData CLI UI </p>
 
-<p align="center"> Rider plugin to generate OData Reference using OData CLI </p>
+<p align="center"> Rider plugin that provide UI to generate OData Reference using OData CLI </p>
 
 <p align="center">
   <a href="https://plugins.jetbrains.com/plugin/24117-odata-cli-ui" target="_blank">
