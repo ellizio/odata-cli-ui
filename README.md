@@ -1,8 +1,12 @@
-# OData CLI UI
+# <p align="center"> OData CLI UI </p>
 
-Rider plugin to generate OData Reference using OData CLI
+<p align="center"> Rider plugin to generate OData Reference using OData CLI </p>
 
-[![Rider](https://img.shields.io/jetbrains/plugin/v/RIDER_PLUGIN_ID.svg?label=Rider&colorB=0A7BBB&style=for-the-badge&logo=rider)](https://plugins.jetbrains.com/plugin/RIDER_PLUGIN_ID)
+<p align="center">
+  <a href="https://plugins.jetbrains.com/embeddable/install/24117" target="_blank">
+    <img src="/img/marketplace.png">
+  </a>
+</p>
 
 ---
 
