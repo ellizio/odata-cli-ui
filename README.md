@@ -3,7 +3,7 @@
 <p align="center"> Rider plugin to generate OData Reference using OData CLI </p>
 
 <p align="center">
-  <a href="https://plugins.jetbrains.com/embeddable/install/24117" target="_blank">
+  <a href="https://plugins.jetbrains.com/plugin/24117-odata-cli-ui" target="_blank">
     <img src="/img/marketplace.png">
   </a>
 </p>
