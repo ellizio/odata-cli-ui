@@ -7,15 +7,15 @@ using System;
 namespace ReSharperPlugin.ODataCliUi;
 
 [SolutionComponent]
-public class Tracker
+public class DotnetToolsTracker
 {
     private readonly JetFastSemiReenterableRWLock _lock = new();
     private readonly Lifetime _lifetime;
     private readonly SolutionDotnetToolsTracker _dotnetToolsTracker;
 
-    public event Action<DotNetToolCache> DotNetToolCacheChanged;
+    public event Action<DotNetToolCache> DotnetToolsCacheChanged;
 
-    public Tracker(Lifetime lifetime, SolutionDotnetToolsTracker dotnetToolsTracker)
+    public DotnetToolsTracker(Lifetime lifetime, SolutionDotnetToolsTracker dotnetToolsTracker)
     {
         _lifetime = lifetime;
         _dotnetToolsTracker = dotnetToolsTracker;
@@ -30,7 +30,7 @@ public class Tracker
 
             using var _ = _lock.UsingWriteLock();
             var cache = args.New;
-            DotNetToolCacheChanged?.Invoke(cache);
+            DotnetToolsCacheChanged?.Invoke(cache);
         });
     }
 }
