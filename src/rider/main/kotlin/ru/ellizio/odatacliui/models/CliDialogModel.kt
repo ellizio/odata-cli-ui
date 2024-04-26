@@ -2,7 +2,7 @@ package ru.ellizio.odatacliui.models
 
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
-import com.jetbrains.rd.ide.model.CliTool
+import com.jetbrains.rd.ide.model.DotnetToolDefinition
 import com.jetbrains.rd.ide.model.protocolModel
 import com.jetbrains.rider.model.dotNetActiveRuntimeModel
 import ru.ellizio.odatacliui.Constants
@@ -21,7 +21,7 @@ private const val CSDL_NAME = "OData ServiceCsdl.xml"
 class CliDialogModel(project: Project, private val actionMetadata: ActionMetadata) {
     val validator = CliDialogModelValidator()
 
-    val odataCliTool: CliTool
+    val odataCliTool: DotnetToolDefinition
     val dotnetCliPath: String?
 
     init {

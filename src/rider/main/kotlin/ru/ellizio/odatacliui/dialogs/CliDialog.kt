@@ -8,6 +8,7 @@ import com.intellij.ui.dsl.builder.*
 import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.UiBundle
 import ru.ellizio.odatacliui.extensions.emptyText
+import ru.ellizio.odatacliui.extensions.humanize
 import ru.ellizio.odatacliui.models.CliDialogModel
 import javax.swing.JComponent
 
@@ -47,9 +48,12 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         tabbedPane.addTab(UiBundle.text("cli.tab.generation"), generationTab)
         tabbedPane.addTab(UiBundle.text("cli.tab.request"), requestTab)
 
+        val version = if (!model.odataCliTool.installed) UiBundle.text("cli.cli-version.label-value.not-installed")
+            else "${UiBundle.text("cli.cli-version.label-value.global")}, ${model.odataCliTool.version?.humanize()}"
+
         return panel {
             row {
-                label(model.odataCliTool.version ?: UiBundle.text("cli.cli-version.label-value.not-installed"))
+                label(version)
                     .label(UiBundle.text("cli.cli-version.label"))
                     .comment(UiBundle.text("cli.cli-version.comment"))
             }.bottomGap(BottomGap.SMALL)
