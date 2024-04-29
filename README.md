@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://plugins.jetbrains.com/plugin/24117-odata-cli-ui" target="_blank">
-    <img src="/img/marketplace.png">
+    <img src="/img/marketplace.png" alt="Marketplace link">
   </a>
 </p>
 
@@ -17,13 +17,10 @@
 
 ## Usage
 
-1. Open solution
-2. Select `OData Reference...` action under project or Web Reference context menu\
-![](/img/action.png)
-3. Fill required `Service name` and `Metadata source` and other optional parameters according [documentation](https://learn.microsoft.com/en-us/odata/odatacli/getting-started#options-1)\
-![](/img/dialog.png)
-4. Click `OK` and wait until generation finishes
-![](/img/terminal.png)
+![](/img/step1.png)
+![](/img/step2.png)
+![](/img/step3.png)
+![](/img/step4.png)
 
 ## ⚠️ Known Restrictions
 
