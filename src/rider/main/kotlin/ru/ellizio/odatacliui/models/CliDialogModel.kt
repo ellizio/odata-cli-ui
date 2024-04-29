@@ -7,7 +7,6 @@ import com.jetbrains.rd.ide.model.protocolModel
 import com.jetbrains.rider.model.dotNetActiveRuntimeModel
 import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.extensions.dotnetAddPackageCommand
-import ru.ellizio.odatacliui.models.validators.CliDialogModelValidator
 import ru.ellizio.odatacliui.terminal.BatchCommandLine
 import ru.ellizio.odatacliui.terminal.builders.BatchCommandLineBuilder
 import com.jetbrains.rider.projectView.solution
@@ -19,8 +18,6 @@ private const val CONNECTED_SERVICES = "Connected Services"
 private const val CSDL_NAME = "OData ServiceCsdl.xml"
 
 class CliDialogModel(project: Project, private val actionMetadata: ActionMetadata) {
-    val validator = CliDialogModelValidator()
-
     val odataCliTool: DotnetToolDefinition
     val dotnetCliPath: String?
 
