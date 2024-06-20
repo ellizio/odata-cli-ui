@@ -8,7 +8,9 @@ import com.intellij.ui.dsl.builder.*
 import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.UiBundle
 import ru.ellizio.odatacliui.extensions.emptyText
+import ru.ellizio.odatacliui.extensions.humanize
 import ru.ellizio.odatacliui.models.CliDialogModel
+import ru.ellizio.odatacliui.models.validators.CliDialogValidators
 import javax.swing.JComponent
 
 class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
@@ -47,9 +49,12 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
         tabbedPane.addTab(UiBundle.text("cli.tab.generation"), generationTab)
         tabbedPane.addTab(UiBundle.text("cli.tab.request"), requestTab)
 
+        val version = if (!model.odataCliTool.installed) UiBundle.text("cli.cli-version.label-value.not-installed")
+            else "${UiBundle.text("cli.cli-version.label-value.global")}, ${model.odataCliTool.version?.humanize()}"
+
         return panel {
             row {
-                label(model.odataCliTool.version ?: UiBundle.text("cli.cli-version.label-value.not-installed"))
+                label(version)
                     .label(UiBundle.text("cli.cli-version.label"))
                     .comment(UiBundle.text("cli.cli-version.comment"))
             }.bottomGap(BottomGap.SMALL)
@@ -57,16 +62,16 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 textField()
                     .align(AlignX.FILL)
                     .bindText(model.serviceName)
-                    .validationOnInput(model.validator.serviceNameValidation())
-                    .validationOnApply(model.validator.serviceNameValidation())
+                    .validationOnInput(CliDialogValidators.serviceNameValidator())
+                    .validationOnApply(CliDialogValidators.serviceNameValidator())
             }
             row(UiBundle.text("cli.metadata-source.row")) {
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml"))
                     .align(AlignX.FILL)
                     .comment(UiBundle.text("cli.metadata-source.comment"), Int.MAX_VALUE)
                     .bindText(model.metadataUri)
-                    .validationOnInput(model.validator.metadataUriValidation())
-                    .validationOnApply(model.validator.metadataUriValidation())
+                    .validationOnInput(CliDialogValidators.metadataUriValidator())
+                    .validationOnApply(CliDialogValidators.metadataUriValidator())
             }.bottomGap(BottomGap.SMALL)
             row {
                 cell(tabbedPane)
@@ -87,8 +92,8 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .align(AlignX.FILL)
                 .comment(UiBundle.text("cli.namespace-prefix.comment"))
                 .bindText(model.namespacePrefix)
-                .validationOnInput(model.validator.namespacePrefixValidation())
-                .validationOnApply(model.validator.namespacePrefixValidation())
+                .validationOnInput(CliDialogValidators.namespacePrefixValidator())
+                .validationOnApply(CliDialogValidators.namespacePrefixValidator())
         }
         row("--excluded-operation-imports") {
             textField()
@@ -154,6 +159,8 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .emptyText(UiBundle.text("cli.proxy.empty-text"))
                 .comment(UiBundle.text("cli.proxy.comment"))
                 .bindText(model.proxy)
+                .validationOnInput(CliDialogValidators.proxyValidator())
+                .validationOnApply(CliDialogValidators.proxyValidator())
         }
     }.apply {
         registerValidators(disposable)
