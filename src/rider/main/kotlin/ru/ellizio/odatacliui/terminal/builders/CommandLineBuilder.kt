@@ -19,6 +19,13 @@ class CommandLineBuilder(toolName: String, commandName: String) {
         return this
     }
 
+    fun withParameter(parameterName: String, parameterValue: String?, condition: Boolean): CommandLineBuilder {
+        if (condition)
+            return withParameter(parameterName, parameterValue)
+
+        return this
+    }
+
     fun withFlag(parameterName: String, parameterValue: Boolean): CommandLineBuilder {
         if (!parameterValue)
             return this

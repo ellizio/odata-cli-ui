@@ -6,6 +6,7 @@ import com.intellij.ui.layout.ValidationInfoBuilder
 import javax.swing.JTextField
 
 object CliDialogValidators {
+    private val serviceNameRegex = Regex("^[0-9a-zA-Z_\\-. ]+\$")
     private val proxyRegex = Regex("^(\\w+\\\\\\w+(:\\w+)?@)?\\w+:\\d+\$")
 
     fun serviceNameValidator(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
@@ -15,6 +16,8 @@ object CliDialogValidators {
             error("Service name must not start with a space")
         else if (it.text.endsWith(' '))
             error("Service name must not end with a space")
+        else if (!serviceNameRegex.matches(it.text))
+            error("Service name must be in a valid format")
         else
             null
     }

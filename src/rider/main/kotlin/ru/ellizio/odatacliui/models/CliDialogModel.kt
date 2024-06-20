@@ -10,20 +10,26 @@ import ru.ellizio.odatacliui.extensions.dotnetAddPackageCommand
 import ru.ellizio.odatacliui.terminal.BatchCommandLine
 import ru.ellizio.odatacliui.terminal.builders.BatchCommandLineBuilder
 import com.jetbrains.rider.projectView.solution
+import ru.ellizio.odatacliui.extensions.greaterOrEquals
 import ru.ellizio.odatacliui.terminal.builders.CommandLineBuilder
 import ru.ellizio.odatacliui.utils.DotnetToolsUtils
 import kotlin.io.path.Path
 
 private const val CONNECTED_SERVICES = "Connected Services"
-private const val CSDL_NAME = "OData ServiceCsdl.xml"
+private const val CSDL_NAME_LEGACY = "OData ServiceCsdl.xml"
+private const val CSDL_NAME_SUFFIX = "Csdl.xml"
 
 class CliDialogModel(project: Project, private val actionMetadata: ActionMetadata) {
     val odataCliTool: DotnetToolDefinition
-    val dotnetCliPath: String?
+    private val dotnetCliPath: String?
+
+    private val atLeast031: Boolean
 
     init {
         odataCliTool = project.solution.protocolModel.getODataCliTool.sync(Unit)
         dotnetCliPath = project.solution.dotNetActiveRuntimeModel.activeRuntime.valueOrNull?.dotNetCliExePath
+
+        atLeast031 = odataCliTool.version?.greaterOrEquals(0, 3, 1) ?: false
     }
 
     val serviceName = MutableProperty("")
@@ -44,10 +50,14 @@ class CliDialogModel(project: Project, private val actionMetadata: ActionMetadat
 
     private fun getOutputDirectory(): String = Path(Path(actionMetadata.projectPath).parent.toString(), CONNECTED_SERVICES, serviceName.get()).toString()
 
-    fun getCsdlPath(): String = Path(CONNECTED_SERVICES, serviceName.get(), CSDL_NAME).toString()
+    fun getCsdlPath(): String {
+        val csdl = if (atLeast031) "${serviceName.get()}$CSDL_NAME_SUFFIX" else CSDL_NAME_LEGACY
+        return Path(CONNECTED_SERVICES, serviceName.get(), csdl).toString()
+    }
 
     fun buildODataCliCommand(): GeneralCommandLine = CommandLineBuilder(DotnetToolsUtils.getToolDefaultPath("odata-cli"), "generate")
         .withParameter("--metadata-uri", metadataUri.get())
+        .withParameter("--service-name", serviceName.get(), atLeast031)
         .withParameter("--file-name", fileName.get())
         .withParameter("--custom-headers", customHeaders.get())
         .withParameter("--proxy", proxy.get())
