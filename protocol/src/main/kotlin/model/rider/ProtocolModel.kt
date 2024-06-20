@@ -5,9 +5,14 @@ import com.jetbrains.rider.model.nova.ide.SolutionModel
 
 @Suppress("unused")
 object ProtocolModel : Ext(SolutionModel.Solution) {
-    private val CliTool = structdef {
+    private val DotnetToolVersionDefinition = structdef {
+        field("major", PredefinedType.int)
+        field("minor", PredefinedType.int)
+        field("patch", PredefinedType.int)
+    }
+    private val DotnetToolDefinition = structdef {
         field("installed", PredefinedType.bool)
-        field("version", PredefinedType.string.nullable)
+        field("version", DotnetToolVersionDefinition.nullable)
     }
 
     private val EmbeddedResourceDefinition = structdef {
@@ -16,7 +21,7 @@ object ProtocolModel : Ext(SolutionModel.Solution) {
     }
 
     init {
-        call("getODataCliTool", PredefinedType.void, CliTool)
+        call("getODataCliTool", PredefinedType.void, DotnetToolDefinition)
         call("addEmbeddedResource", EmbeddedResourceDefinition, PredefinedType.void)
     }
 }

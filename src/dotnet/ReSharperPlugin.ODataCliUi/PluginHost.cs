@@ -16,20 +16,20 @@ namespace ReSharperPlugin.ODataCliUi;
 public sealed class PluginHost : IDisposable
 {
     private readonly ISolution _solution;
-    private readonly Tracker _tracker;
+    private readonly DotnetToolsTracker _dotnetToolsTracker;
 
-    private CliTool _odataCliTool;
+    private DotnetToolDefinition _odataCliTool;
 
-    public PluginHost(ISolution solution, Tracker tracker)
+    public PluginHost(ISolution solution, DotnetToolsTracker dotnetToolsTracker)
     {
         _solution = solution;
         var protocolModel = solution.GetProtocolSolution().GetProtocolModel();
         protocolModel.GetODataCliTool.SetSync(GetODataCliTool);
         protocolModel.AddEmbeddedResource.SetVoidAsync(AddEmbeddedResourceAsync);
 
-        _tracker = tracker;
-        tracker.DotNetToolCacheChanged += OnDotNetToolCacheChanged;
-        tracker.Start();
+        _dotnetToolsTracker = dotnetToolsTracker;
+        dotnetToolsTracker.DotnetToolsCacheChanged += OnDotnetToolsCacheChanged;
+        dotnetToolsTracker.Start();
     }
     
     private Task AddEmbeddedResourceAsync(Lifetime lifetime, EmbeddedResourceDefinition definition)
@@ -46,21 +46,21 @@ public sealed class PluginHost : IDisposable
         return Task.CompletedTask;
     }
 
-    private CliTool GetODataCliTool(Lifetime lifetime, Unit unit) => _odataCliTool;
+    private DotnetToolDefinition GetODataCliTool(Lifetime lifetime, Unit unit) => _odataCliTool;
 
-    private void OnDotNetToolCacheChanged(DotNetToolCache cache)
+    private void OnDotnetToolsCacheChanged(DotNetToolCache cache)
     {
         var tool = cache.ToolGlobalCache.GetGlobalTool(Constants.MicrosoftODataCliPackageId)?.FirstOrDefault();
         _odataCliTool = tool is null
-            ? _odataCliTool = new CliTool(false, null)
-            : _odataCliTool = new CliTool(true, $"Global, {tool.Version}");
+            ? _odataCliTool = new DotnetToolDefinition(false, null)
+            : _odataCliTool = new DotnetToolDefinition(true, new DotnetToolVersionDefinition(tool.Version.Major, tool.Version.Minor, tool.Version.Patch));
     }
 
     public void Dispose()
     {
-        if (_tracker is not null)
+        if (_dotnetToolsTracker is not null)
         {
-            _tracker.DotNetToolCacheChanged -= OnDotNetToolCacheChanged;
+            _dotnetToolsTracker.DotnetToolsCacheChanged -= OnDotnetToolsCacheChanged;
         }
     }
 }
