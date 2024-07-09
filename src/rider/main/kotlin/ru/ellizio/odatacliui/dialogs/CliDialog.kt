@@ -117,10 +117,16 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .bindText(model.excludedSchemaTypes)
         }
         row {
-            checkBox("--internal")
+            checkBox("--enable-internal")
                 .align(AlignX.FILL)
-                .comment(UiBundle.text("cli.internal.comment"), Int.MAX_VALUE)
-                .bindSelected(model.internal)
+                .comment(UiBundle.text("cli.enable-internal.comment"), Int.MAX_VALUE)
+                .bindSelected(model.enableInternal)
+        }
+        row {
+            checkBox("--omit-versioning-info")
+                .align(AlignX.FILL)
+                .comment(UiBundle.text("cli.omit-versioning-info.comment"), Int.MAX_VALUE)
+                .bindSelected(model.omitVersioningInfo)
         }
         row {
             checkBox("--multiple-files")
@@ -133,6 +139,12 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .align(AlignX.FILL)
                 .comment(UiBundle.text("cli.ignore-unexpected-elements.comment"), Int.MAX_VALUE)
                 .bindSelected(model.ignoreUnexpectedElements)
+        }
+        row {
+            checkBox("--enable-tracking")
+                .align(AlignX.FILL)
+                .comment(UiBundle.text("cli.enable-tracking.comment"), Int.MAX_VALUE)
+                .bindSelected(model.enableTracking)
         }
         row {
             checkBox("--upper-camel-case")
