@@ -30,9 +30,6 @@ class OpenCliDialogAction : AnAction() {
 
         val dialogModel = CliDialogModel(project, actionMetadata)
 
-        // launchOnUi is available since 233.11799.241
-        // RD-2023.3 has build number 233.11799.261
-        @Suppress("MissingRecentApi")
         project.lifetime.launchOnUi {
             val dialog = CliDialog(dialogModel)
             if (dialog.showAndGet()) {
