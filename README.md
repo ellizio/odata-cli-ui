@@ -37,5 +37,5 @@
 
 ## Additional References
 
-- [Changelog](https://github.com/ellizio/odata-cli-ui/blob/master/CHANGELOG.md)
+- [Changelog](CHANGELOG.md)
 - [OData CLI](https://learn.microsoft.com/en-us/odata/odatacli/getting-started)

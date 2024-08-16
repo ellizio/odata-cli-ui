@@ -4,6 +4,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [1.2.0]
 - Added missing odata-cli options
+- Fixed tabs validation
 
 ## [1.1.0]
 - odata-cli 0.3.1 support
