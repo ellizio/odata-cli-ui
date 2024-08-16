@@ -2,7 +2,6 @@ package ru.ellizio.odatacliui.dialogs
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.ui.DialogPanel
-import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.*
 import ru.ellizio.odatacliui.Constants
@@ -13,7 +12,7 @@ import ru.ellizio.odatacliui.models.CliDialogModel
 import ru.ellizio.odatacliui.models.validators.CliDialogValidators
 import javax.swing.JComponent
 
-class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
+class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
     private lateinit var generationTabPanel: DialogPanel
     private lateinit var requestTabPanel: DialogPanel
 
@@ -76,6 +75,8 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
             row {
                 cell(tabbedPane)
             }.resizableRow()
+        }.apply {
+            registerPanelValidators(this)
         }
     }
 
@@ -153,7 +154,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .bindSelected(model.upperCamelCase)
         }
     }.apply {
-        registerValidators(disposable)
+        registerPanelValidators(this)
         generationTabPanel = this
     }
 
@@ -175,7 +176,7 @@ class CliDialog(private val model: CliDialogModel) : DialogWrapper(false) {
                 .validationOnApply(CliDialogValidators.proxyValidator())
         }
     }.apply {
-        registerValidators(disposable)
+        registerPanelValidators(this)
         requestTabPanel = this
     }
 }

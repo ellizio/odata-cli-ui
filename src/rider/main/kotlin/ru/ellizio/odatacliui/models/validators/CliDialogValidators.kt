@@ -7,6 +7,7 @@ import javax.swing.JTextField
 
 object CliDialogValidators {
     private val serviceNameRegex = Regex("^[0-9a-zA-Z_\\-. ]+\$")
+    private val namespacePrefixRegex = Regex("^[a-zA-Z]\\w*(\\.[a-zA-Z]\\w*)*\$")
     private val proxyRegex = Regex("^(\\w+\\\\\\w+(:\\w+)?@)?\\w+:\\d+\$")
 
     fun serviceNameValidator(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
@@ -30,14 +31,14 @@ object CliDialogValidators {
     }
 
     fun namespacePrefixValidator(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
-        if (it.text.contains(' '))
-            error("Namespace prefix must not contain spaces")
+        if (it.text.isNotEmpty() && !namespacePrefixRegex.matches(it.text))
+            error("Namespace prefix must be in a valid format")
         else
             null
     }
 
     fun proxyValidator(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
-        if (!proxyRegex.matches(it.text))
+        if (it.text.isNotEmpty() && !proxyRegex.matches(it.text))
             error("Proxy must be in a valid format")
         else
             null
