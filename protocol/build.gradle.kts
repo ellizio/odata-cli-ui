@@ -1,4 +1,5 @@
 import com.jetbrains.rd.generator.gradle.RdGenTask
+import java.util.*
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -23,7 +24,7 @@ val RiderPluginId: String by rootProject
 
 rdgen {
     val csOutput = File(rootDir, "src/dotnet/${DotnetPluginId}/Rider")
-    val ktOutput = File(rootDir, "src/rider/main/kotlin/${RiderPluginId.replace('.','/').toLowerCase()}")
+    val ktOutput = File(rootDir, "src/rider/main/kotlin/${RiderPluginId.replace('.','/').lowercase(Locale.getDefault())}")
     verbose = true
     packages = "model.rider"
 
