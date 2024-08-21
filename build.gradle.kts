@@ -2,6 +2,7 @@ import com.jetbrains.plugin.structure.base.utils.isFile
 import groovy.ant.FileNameFinder
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.intellij.platform.gradle.Constants
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import java.io.ByteArrayOutputStream
 
 plugins {
@@ -13,6 +14,8 @@ plugins {
 
 val isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 extra["isWindows"] = isWindows
+
+version = extra["PluginVersion"] as String
 
 val DotnetSolution: String by project
 val BuildConfiguration: String by project
@@ -30,6 +33,7 @@ allprojects {
 repositories {
     intellijPlatform {
         defaultRepositories()
+        intellijDependencies()
         jetbrainsRuntime()
     }
 }
@@ -37,16 +41,14 @@ repositories {
 dependencies {
     intellijPlatform {
         rider(ProductVersion, false)
-        jetbrainsRuntime()
         instrumentationTools()
+        jetbrainsRuntime()
 
         // TODO: add plugins
         // bundledPlugin("org.jetbrains.plugins.terminal")
         // bundledPlugin("com.jetbrains.ChooseRuntime:1.0.9")
     }
 }
-
-version = extra["PluginVersion"] as String
 
 tasks.wrapper {
     gradleVersion = "8.8"
@@ -67,7 +69,17 @@ sourceSets {
 }
 
 tasks.compileKotlin {
-    kotlinOptions { jvmTarget = "17" }
+    kotlinOptions { jvmTarget = "21" }
+}
+
+intellijPlatform {
+    pluginVerification {
+        cliPath = File("/libs/verifier-cli-1.373-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
+        ides {
+            ide(IntelliJPlatformType.Rider, "2024.2")
+            ide(IntelliJPlatformType.Rider, "2024.2.1")
+        }
+    }
 }
 
 val setBuildTool by tasks.registering {
@@ -201,11 +213,12 @@ tasks.prepareSandbox {
 //    ))
 //}
 //
-//tasks.signPlugin {
-//    certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
-//    privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
-//    password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
-//}
+
+tasks.signPlugin {
+    certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
+    privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+    password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+}
 
 tasks.publishPlugin {
     dependsOn(testDotNet)
@@ -231,7 +244,7 @@ artifacts {
     add(riderModel.name, provider {
         intellijPlatform.platformPath.resolve("lib/rd/rider-model.jar").also {
             check(it.isFile) {
-                "$it : rider-model.jar is not found at $riderModel"
+                "rider-model.jar is not found at $riderModel"
             }
         }
     }) {
