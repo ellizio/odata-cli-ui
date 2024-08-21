@@ -1,8 +1,8 @@
 import com.jetbrains.rd.generator.gradle.RdGenTask
 
 plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("com.jetbrains.rdgen") version libs.versions.rdGen
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.rdGen)
 }
 
 dependencies {

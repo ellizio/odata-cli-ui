@@ -1,4 +1,3 @@
-// Reference https://www.jetbrains.org/intellij/sdk/docs/tutorials/build_system/gradle_guide.html
 import com.jetbrains.plugin.structure.base.utils.isFile
 import groovy.ant.FileNameFinder
 import org.apache.tools.ant.taskdefs.condition.Os
@@ -8,8 +7,8 @@ import java.io.ByteArrayOutputStream
 plugins {
     id ("java")
     alias(libs.plugins.kotlinJvm)
-    id("org.jetbrains.intellij.platform") version "2.0.1"     // See https://github.com/JetBrains/intellij-platform-gradle-plugin/releases
-    id ("me.filippov.gradle.jvm.wrapper") version "0.14.0"
+    alias(libs.plugins.intellijPlatform)
+    alias(libs.plugins.gradleJvmWrapper)
 }
 
 val isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
@@ -35,13 +34,25 @@ repositories {
     }
 }
 
+dependencies {
+    intellijPlatform {
+        rider(ProductVersion, false)
+        jetbrainsRuntime()
+        instrumentationTools()
+
+        // TODO: add plugins
+        // bundledPlugin("org.jetbrains.plugins.terminal")
+        // bundledPlugin("com.jetbrains.ChooseRuntime:1.0.9")
+    }
+}
+
+version = extra["PluginVersion"] as String
+
 tasks.wrapper {
     gradleVersion = "8.8"
     distributionType = Wrapper.DistributionType.ALL
     distributionUrl = "https://cache-redirector.jetbrains.com/services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
-
-version = extra["PluginVersion"] as String
 
 tasks.processResources {
     from("dependencies.json") { into("META-INF") }
@@ -81,7 +92,7 @@ val setBuildTool by tasks.registering {
             }
         }
 
-        args.add("${DotnetSolution}")
+        args.add(DotnetSolution)
         args.add("/p:Configuration=${BuildConfiguration}")
         args.add("/p:HostFullIdentifier=")
         extra["args"] = args
@@ -137,18 +148,6 @@ tasks.buildPlugin {
             args(arguments)
             workingDir(rootDir)
         }
-    }
-}
-
-dependencies {
-    intellijPlatform {
-        rider(ProductVersion, false)
-        jetbrainsRuntime()
-        instrumentationTools()
-
-        // TODO: add plugins
-        // bundledPlugin("org.jetbrains.plugins.terminal")
-        // bundledPlugin("com.jetbrains.ChooseRuntime:1.0.9")
     }
 }
 
