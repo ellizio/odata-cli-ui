@@ -16,6 +16,7 @@ output
 *.cache
 
 # IDEs
+/.intellijPlatform
 /.idea/*.iml
 /.idea/*.xml
 /.idea/.idea.*/*.iml
