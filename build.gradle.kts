@@ -152,7 +152,7 @@ val testDotNet by tasks.registering {
 tasks.buildPlugin {
     doLast {
         copy {
-            from("${layout.buildDirectory}/distributions/${rootProject.name}-${version}.zip")
+            from("${buildDir}/distributions/${rootProject.name}-${version}.zip")
             into("${rootDir}/output")
         }
 
