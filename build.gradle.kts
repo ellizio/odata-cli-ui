@@ -76,9 +76,18 @@ intellijPlatform {
     pluginVerification {
         cliPath = File("/libs/verifier-cli-1.373-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
         ides {
-            ide(IntelliJPlatformType.Rider, "2024.2")
-            ide(IntelliJPlatformType.Rider, "2024.2.1")
+            ides(listOf(
+                "RD-2024.2",
+                "RD-2024.2.1"
+            ))
         }
+    }
+
+    signing {
+        cliPath = File("/libs/marketplace-zip-signer-cli-0.1.24.jar") // https://github.com/JetBrains/marketplace-zip-signer
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
 }
 
@@ -138,7 +147,7 @@ val testDotNet by tasks.registering {
 tasks.buildPlugin {
     doLast {
         copy {
-            from("${buildDir}/distributions/${rootProject.name}-${version}.zip")
+            from("${layout.buildDirectory}/distributions/${rootProject.name}-${version}.zip")
             into("${rootDir}/output")
         }
 
@@ -199,25 +208,6 @@ tasks.prepareSandbox {
             if (!file.exists()) throw RuntimeException("File $file does not exist")
         }
     }
-}
-
-//tasks.runPluginVerifier {
-//    ideVersions.set(listOf(
-//        "RD-2024.1",
-//        "RD-2024.1.1",
-//        "RD-2024.1.2",
-//        "RD-2024.1.3",
-//        "RD-2024.1.4",
-//        "RD-2024.1.5",
-//        "RD-2024.1.6"
-//    ))
-//}
-//
-
-tasks.signPlugin {
-    certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
-    privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
-    password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
 }
 
 tasks.publishPlugin {
