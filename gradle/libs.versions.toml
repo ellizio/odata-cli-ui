@@ -1,8 +1,8 @@
 [versions]
-kotlin = "1.8.20" # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
+kotlin = "1.9.24" # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
 rdGen = "2024.1.1" # https://github.com/JetBrains/rd/releases
 intellijPlatform = "2.0.1" # https://github.com/JetBrains/intellij-platform-gradle-plugin/releases
-gradleJvmWrapper = "0.14.0" # https://github.com/JetBrains/intellij-platform-gradle-plugin/releases
+gradleJvmWrapper = "0.14.0"
 
 [libraries]
 kotlinStdLib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }

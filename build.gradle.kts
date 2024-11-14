@@ -68,8 +68,13 @@ sourceSets {
     }
 }
 
+tasks.compileJava {
+    sourceCompatibility = JavaVersion.VERSION_21.toString()
+    targetCompatibility = JavaVersion.VERSION_21.toString()
+}
+
 tasks.compileKotlin {
-    kotlinOptions { jvmTarget = "17" }
+    kotlinOptions { jvmTarget = "21" }
 }
 
 intellijPlatform {
@@ -77,13 +82,8 @@ intellijPlatform {
         cliPath = File("/libs/verifier-cli-1.373-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
         ides {
             ides(listOf(
-                "RD-2024.1",
-                "RD-2024.1.1",
-                "RD-2024.1.2",
-                "RD-2024.1.3",
-                "RD-2024.1.4",
-                "RD-2024.1.5",
-                "RD-2024.1.6"
+                "RD-2024.2",
+                "RD-2024.2.1"
             ))
         }
     }

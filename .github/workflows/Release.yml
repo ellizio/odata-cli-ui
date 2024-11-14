@@ -12,7 +12,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: ./gradlew :rdgen
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+      - run: ./gradlew :protocol:rdgen
       - run: ./gradlew :buildPlugin -PBuildConfiguration=Release
       - run: ./gradlew :signPlugin -PBuildConfiguration=Release
         env:
@@ -26,7 +30,6 @@ jobs:
           find: 'release/'
           replace: ''
       - uses: actions/upload-artifact@v3
-        if: always()
         with:
           name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}
           path: output
