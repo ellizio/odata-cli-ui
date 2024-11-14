@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="*.DotSettings" />
   </ItemGroup>
 

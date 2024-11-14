@@ -1,3 +1,4 @@
+using JetBrains.Application.Parts;
 using JetBrains.Core;
 using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ReSharperPlugin.ODataCliUi;
 
-[SolutionComponent]
+[SolutionComponent(InstantiationEx.LegacyDefault)]
 public sealed class PluginHost : IDisposable
 {
     private readonly ISolution _solution;
@@ -37,6 +38,7 @@ public sealed class PluginHost : IDisposable
         IProject project;
         using (ReadLockCookie.Create())
             project = _solution.GetProjectByName(definition.ProjectName);
+
         if (project is null)
             return Task.CompletedTask;
         
@@ -59,8 +61,6 @@ public sealed class PluginHost : IDisposable
     public void Dispose()
     {
         if (_dotnetToolsTracker is not null)
-        {
             _dotnetToolsTracker.DotnetToolsCacheChanged -= OnDotnetToolsCacheChanged;
-        }
     }
 }

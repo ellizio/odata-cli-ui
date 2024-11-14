@@ -65,6 +65,9 @@ class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
                     .validationOnApply(CliDialogValidators.serviceNameValidator())
             }
             row(UiBundle.text("cli.metadata-source.row")) {
+                @Suppress("MissingRecentApi")
+                // Available since 243.15521.24
+                // Rider 2024.3 has version 243.21565.191
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("xml"))
                     .align(AlignX.FILL)
                     .comment(UiBundle.text("cli.metadata-source.comment"), Int.MAX_VALUE)

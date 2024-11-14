@@ -81,14 +81,7 @@ intellijPlatform {
         cliPath = File("/libs/verifier-cli-1.373-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
         ides {
             ides(listOf(
-                "RD-2024.2",
-                "RD-2024.2.1",
-                "RD-2024.2.2",
-                "RD-2024.2.3",
-                "RD-2024.2.4",
-                "RD-2024.2.5",
-                "RD-2024.2.6",
-                "RD-2024.2.7"
+                "RD-2024.3"
             ))
         }
     }
