@@ -2,7 +2,6 @@ import com.jetbrains.plugin.structure.base.utils.isFile
 import groovy.ant.FileNameFinder
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.intellij.platform.gradle.Constants
-import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import java.io.ByteArrayOutputStream
 
 plugins {
@@ -83,7 +82,13 @@ intellijPlatform {
         ides {
             ides(listOf(
                 "RD-2024.2",
-                "RD-2024.2.1"
+                "RD-2024.2.1",
+                "RD-2024.2.2",
+                "RD-2024.2.3",
+                "RD-2024.2.4",
+                "RD-2024.2.5",
+                "RD-2024.2.6",
+                "RD-2024.2.7"
             ))
         }
     }
