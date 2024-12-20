@@ -78,7 +78,7 @@ tasks.compileKotlin {
 
 intellijPlatform {
     pluginVerification {
-        cliPath = File("/libs/verifier-cli-1.373-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
+        cliPath = File("/libs/verifier-cli-1.381-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
         ides {
             ides(listOf(
                 "RD-2024.2",
@@ -94,7 +94,7 @@ intellijPlatform {
     }
 
     signing {
-        cliPath = File("/libs/marketplace-zip-signer-cli-0.1.24.jar") // https://github.com/JetBrains/marketplace-zip-signer
+        cliPath = File("/libs/marketplace-zip-signer-cli-0.1.29.jar") // https://github.com/JetBrains/marketplace-zip-signer
         certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
         privateKey = providers.environmentVariable("PRIVATE_KEY")
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
