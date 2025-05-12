@@ -4,6 +4,7 @@ import com.intellij.execution.ui.ConsoleView
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.application.EDT
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.rd.util.*
 import com.intellij.openapi.vfs.VirtualFileManager
@@ -19,6 +20,8 @@ import com.jetbrains.rider.projectView.actions.isProjectModelReady
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.ellizio.odatacliui.extensions.printCommandError
 import ru.ellizio.odatacliui.models.ActionMetadata
 import ru.ellizio.odatacliui.terminal.executors.CommandLineExecutor
@@ -33,7 +36,7 @@ class OpenCliDialogAction : AnAction() {
         project.lifetime.launchOnUi {
             val dialog = CliDialog(dialogModel)
             if (dialog.showAndGet()) {
-                withBackgroundContext {
+                withContext(Dispatchers.IO) {
                     executeCommand(project, actionMetadata, dialogModel)
                 }
             }
@@ -54,8 +57,8 @@ class OpenCliDialogAction : AnAction() {
 
     private suspend fun executeCommand(project: Project, metadata: ActionMetadata, model: CliDialogModel)
     {
-        var consoleView: ConsoleView? = null
-        withUiContext {
+        var consoleView: ConsoleView?
+        withContext(Dispatchers.EDT) {
             consoleView = CliToolWindowManager.getInstance(project).instantiateConsole()
         }
 

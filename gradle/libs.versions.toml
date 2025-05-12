@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.24" # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
 rdGen = "2024.3.1" # https://github.com/JetBrains/rd/releases
-intellijPlatform = "2.0.1" # https://github.com/JetBrains/intellij-platform-gradle-plugin/releases
+intellijPlatform = "2.5.0" # https://github.com/JetBrains/intellij-platform-gradle-plugin/releases
 gradleJvmWrapper = "0.14.0" # https://github.com/mfilippov/gradle-jvm-wrapper
 
 [libraries]
