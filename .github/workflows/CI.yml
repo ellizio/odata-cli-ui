@@ -32,7 +32,7 @@ jobs:
           source: ${{ github.ref_name }}
           find: '/'
           replace: '-'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: github.ref_name == 'master' || github.ref_name == 'dev'
         with:
           name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}-${{ github.run_number }}
