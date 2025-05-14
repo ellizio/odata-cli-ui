@@ -23,8 +23,5 @@ public class ProjectModifier
         _host = solutionHost.GetProjectHost(_mark!) as MsBuildProjectHost;
     }
     
-    public void AddEmbeddedResource(string include)
-    {
-        _host.EditProject(_mark, session => session.AddItem(_mark, EmbeddedResource, include));
-    }
+    public void AddEmbeddedResource(string include) => _host.EditProject(_mark, session => session.AddItem(_mark, EmbeddedResource, include));
 }

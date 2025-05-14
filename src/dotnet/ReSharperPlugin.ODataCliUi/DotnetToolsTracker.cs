@@ -1,3 +1,4 @@
+using JetBrains.Application.Parts;
 using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.NuGet.DotNetTools;
@@ -6,7 +7,7 @@ using System;
 
 namespace ReSharperPlugin.ODataCliUi;
 
-[SolutionComponent]
+[SolutionComponent(InstantiationEx.LegacyDefault)]
 public class DotnetToolsTracker
 {
     private readonly JetFastSemiReenterableRWLock _lock = new();
