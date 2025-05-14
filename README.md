@@ -19,6 +19,9 @@
 
 ## Compatibility
 
+> [!WARNING]
+> OData CLI requires .NET 6. See issue https://github.com/ellizio/odata-cli-ui/issues/39
+
 | Plugin version | odata-cli version |
 |----------------|-------------------|
 | 1.2.0          | 0.3.1, 0.3.0      |

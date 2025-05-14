@@ -9,14 +9,14 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'corretto'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: |
             build/gradle-jvm
@@ -32,7 +32,7 @@ jobs:
           source: ${{ github.ref_name }}
           find: '/'
           replace: '-'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: github.ref_name == 'master' || github.ref_name == 'dev'
         with:
           name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}-${{ github.run_number }}
@@ -40,10 +40,10 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: |
             build/gradle-jvm

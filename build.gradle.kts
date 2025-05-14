@@ -2,6 +2,7 @@ import com.jetbrains.plugin.structure.base.utils.isFile
 import groovy.ant.FileNameFinder
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.intellij.platform.gradle.Constants
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.ByteArrayOutputStream
 
 plugins {
@@ -39,8 +40,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        rider(ProductVersion, false)
-        instrumentationTools()
+        rider(ProductVersion, useInstaller = false)
         jetbrainsRuntime()
 
         // TODO: add plugins
@@ -73,28 +73,23 @@ tasks.compileJava {
 }
 
 tasks.compileKotlin {
-    kotlinOptions { jvmTarget = "21" }
+    compilerOptions { jvmTarget.set(JvmTarget.JVM_21) }
 }
 
 intellijPlatform {
     pluginVerification {
-        cliPath = File("/libs/verifier-cli-1.373-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
+        cliPath = File("/libs/verifier-cli-1.385-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
         ides {
             ides(listOf(
-                "RD-2024.2",
-                "RD-2024.2.1",
-                "RD-2024.2.2",
-                "RD-2024.2.3",
-                "RD-2024.2.4",
-                "RD-2024.2.5",
-                "RD-2024.2.6",
-                "RD-2024.2.7"
+                "RD-2025.1",
+                "RD-2025.1.1",
+                "RD-2025.1.2"
             ))
         }
     }
 
     signing {
-        cliPath = File("/libs/marketplace-zip-signer-cli-0.1.24.jar") // https://github.com/JetBrains/marketplace-zip-signer
+        cliPath = File("/libs/marketplace-zip-signer-cli-0.1.34.jar") // https://github.com/JetBrains/marketplace-zip-signer
         certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
         privateKey = providers.environmentVariable("PRIVATE_KEY")
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
