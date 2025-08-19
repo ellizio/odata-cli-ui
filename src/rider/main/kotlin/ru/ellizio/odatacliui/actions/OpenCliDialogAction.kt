@@ -78,7 +78,7 @@ class OpenCliDialogAction : AnAction() {
             project.solution.protocolModel.addEmbeddedResource.startSuspending(project.lifetime, EmbeddedResourceDefinition(metadata.projectName, model.getCsdlPath()))
         }
 
-        val nugetExecutor = BatchCommandLineExecutor(project, model.buildNuGetCommand(), consoleView!!)
+        val nugetExecutor = BatchCommandLineExecutor(project, model.buildNuGetCommand(), consoleView)
         nugetExecutor.execute()
 
         VirtualFileManager.getInstance().refreshWithoutFileWatcher(true)
