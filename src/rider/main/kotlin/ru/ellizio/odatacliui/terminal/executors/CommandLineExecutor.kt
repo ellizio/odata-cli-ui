@@ -1,8 +1,8 @@
 package ru.ellizio.odatacliui.terminal.executors
 
 import com.intellij.execution.configurations.GeneralCommandLine
-import com.intellij.execution.process.ProcessAdapter
 import com.intellij.execution.process.ProcessEvent
+import com.intellij.execution.process.ProcessListener
 import com.intellij.execution.ui.ConsoleView
 import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.openapi.project.Project
@@ -19,7 +19,7 @@ class CommandLineExecutor(
     fun execute(): Boolean {
         var hasError = false
 
-        val listener = object : ProcessAdapter() {
+        val listener = object : ProcessListener {
             override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
                 val contentType = ConsoleViewContentType.getConsoleViewType(outputType)
                 if (contentType == ConsoleViewContentType.ERROR_OUTPUT)
