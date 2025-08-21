@@ -21,7 +21,6 @@ val DotnetSolution: String by project
 val BuildConfiguration: String by project
 val ProductVersion: String by project
 val DotnetPluginId: String by project
-val RiderPluginId: String by project
 val PublishToken: String by project
 
 allprojects {
@@ -73,7 +72,7 @@ tasks.compileJava {
 }
 
 tasks.compileKotlin {
-    compilerOptions { jvmTarget= JvmTarget.JVM_21 }
+    compilerOptions { jvmTarget = JvmTarget.JVM_21 }
 }
 
 intellijPlatform {
