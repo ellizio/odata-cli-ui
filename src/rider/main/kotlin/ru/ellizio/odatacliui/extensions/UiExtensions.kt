@@ -15,6 +15,6 @@ fun scrollablePanel(init: Panel.() -> Unit): ScrollableDialogPanel {
     val content = panel(init)
     return ScrollableDialogPanel(content).apply {
         border = null
-        isOverlappingScrollBar = false
+        isOverlappingScrollBar = true
     }
 }
