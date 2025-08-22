@@ -60,7 +60,7 @@ class CliDialogModel(project: Project, private val actionMetadata: ActionMetadat
     fun buildODataCliCommand(): GeneralCommandLine = CommandLineBuilder(DotnetToolsUtils.getToolDefaultPath("odata-cli"), "generate")
         .withParameter("--metadata-uri", metadataUri.get())
         .withParameter("--service-name", serviceName.get(), atLeast031)
-        .withParameter("--file-name", fileName.get())
+        .withParameter("--file-name", fileName.get().removeSuffix(".cs"))
         .withParameter("--custom-headers", customHeaders.get())
         .withParameter("--proxy", proxy.get())
         .withParameter("--namespace-prefix", namespacePrefix.get())
