@@ -12,10 +12,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'corretto'
+
+      - name: Prepare Build Environment
+        uses: ./.github/workflows/prepare-build-environment
+
       - uses: actions/cache@v4
         with:
           path: |
@@ -24,33 +24,19 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-Build-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
+
       - run: ./gradlew :protocol:rdgen --no-daemon
       - run: ./gradlew :buildPlugin -PBuildConfiguration=Release --no-daemon
+
       - uses: mad9000/actions-find-and-replace-string@5
         id: fix_branch_name
         with:
           source: ${{ github.ref_name }}
           find: '/'
           replace: '-'
+
       - uses: actions/upload-artifact@v4
         if: github.ref_name == 'master' || github.ref_name == 'dev'
         with:
           name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}-${{ github.run_number }}
           path: output
-  Test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - uses: actions/cache@v4
-        with:
-          path: |
-            build/gradle-jvm
-            packages
-            ~/.nuget/packages
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-Test-${{ hashFiles('gradlew.bat', 'src/dotnet/*/*.csproj', 'src/dotnet/*.props', 'gradle-wrapper.properties') }}
-      - run: ./gradlew :protocol:rdgen --no-daemon
-      - run: ./gradlew :testDotNet --no-daemon
