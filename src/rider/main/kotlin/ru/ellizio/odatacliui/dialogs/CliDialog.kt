@@ -90,6 +90,8 @@ class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
                 .emptyText(UiBundle.text("cli.filename.empty-text"))
                 .comment(UiBundle.text("cli.filename.comment"))
                 .bindText(model.fileName)
+                .validationOnInput(CliDialogValidators.fileNameValidator())
+                .validationOnApply(CliDialogValidators.fileNameValidator())
         }
         row("--namespace-prefix") {
             textField()
