@@ -28,6 +28,7 @@ class CliToolWindowManager(private val project: Project) {
     fun instantiateConsole(): ConsoleView {
         val consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).console
         val content = toolWindow.contentManager.factory.createContent(consoleView.component, UiBundle.text("cli.tab.generate"), true)
+        content.setDisposer(consoleView);
         toolWindow.contentManager.addContent(content)
         toolWindow.activate {
             toolWindow.contentManager.setSelectedContent(content)

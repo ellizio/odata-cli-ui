@@ -30,6 +30,13 @@ object CliDialogValidators {
             null
     }
 
+    fun fileNameValidator(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
+        if (it.text.isNotEmpty() && it.text.isBlank())
+            error("File name must not be entirely whitespace")
+        else
+            null
+    }
+
     fun namespacePrefixValidator(): ValidationInfoBuilder.(JTextField) -> ValidationInfo? = {
         if (it.text.isNotEmpty() && !namespacePrefixRegex.matches(it.text))
             error("Namespace prefix must be in a valid format")

@@ -8,8 +8,10 @@ import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.UiBundle
 import ru.ellizio.odatacliui.extensions.emptyText
 import ru.ellizio.odatacliui.extensions.humanize
+import ru.ellizio.odatacliui.extensions.scrollablePanel
 import ru.ellizio.odatacliui.models.CliDialogModel
 import ru.ellizio.odatacliui.models.validators.CliDialogValidators
+import ru.ellizio.odatacliui.ui.ScrollableDialogPanel
 import javax.swing.JComponent
 
 class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
@@ -18,6 +20,7 @@ class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
 
     init {
         title = Constants.PLUGIN_NAME
+        isResizable = false
         setOKActionEnabled(true)
         init()
     }
@@ -80,13 +83,15 @@ class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
         }
     }
 
-    private fun buildGenerationArgumentsTab(): DialogPanel = panel {
+    private fun buildGenerationArgumentsTab(): ScrollableDialogPanel = scrollablePanel {
         row("--file-name") {
             textField()
                 .align(AlignX.FILL)
                 .emptyText(UiBundle.text("cli.filename.empty-text"))
                 .comment(UiBundle.text("cli.filename.comment"))
                 .bindText(model.fileName)
+                .validationOnInput(CliDialogValidators.fileNameValidator())
+                .validationOnApply(CliDialogValidators.fileNameValidator())
         }
         row("--namespace-prefix") {
             textField()
@@ -154,8 +159,8 @@ class CliDialog(private val model: CliDialogModel) : BaseDialog(false) {
                 .bindSelected(model.upperCamelCase)
         }
     }.apply {
-        registerPanelValidators(this)
-        generationTabPanel = this
+        registerPanelValidators(this.panel)
+        generationTabPanel = this.panel
     }
 
     private fun buildRequestArgumentsTab(): DialogPanel = panel {
