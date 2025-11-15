@@ -30,8 +30,7 @@ public class DotnetToolsTracker
                 return;
 
             using var _ = _lock.UsingWriteLock();
-            var cache = args.New;
-            DotnetToolsCacheChanged?.Invoke(cache);
+            DotnetToolsCacheChanged?.Invoke(args.New);
         });
     }
 }
