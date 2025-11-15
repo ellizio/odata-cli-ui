@@ -2,6 +2,7 @@ import com.jetbrains.plugin.structure.base.utils.isFile
 import groovy.ant.FileNameFinder
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.intellij.platform.gradle.Constants
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.ByteArrayOutputStream
 
@@ -39,7 +40,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        rider(ProductVersion, useInstaller = false)
+        rider(ProductVersion) { useInstaller = false }
         jetbrainsRuntime()
 
         // TODO: add plugins
@@ -77,16 +78,15 @@ tasks.compileKotlin {
 
 intellijPlatform {
     pluginVerification {
-        cliPath = File("/libs/verifier-cli-1.394-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
+        cliPath = File("/libs/verifier-cli-1.398-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
         ides {
-            ides(listOf(
-                "RD-2025.2"
-            ))
+            create(IntelliJPlatformType.Rider, "2025.3")
+            create(IntelliJPlatformType.Rider, "2025.3.0.1")
         }
     }
 
     signing {
-        cliPath = File("./libs/marketplace-zip-signer-cli-0.1.42.jar") // https://github.com/JetBrains/marketplace-zip-signer
+        cliPath = File("./libs/marketplace-zip-signer-cli-0.1.43.jar") // https://github.com/JetBrains/marketplace-zip-signer
         certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
         privateKey = providers.environmentVariable("PRIVATE_KEY")
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
@@ -100,7 +100,7 @@ val setBuildTool by tasks.registering {
 
         if (isWindows) {
             val stdout = ByteArrayOutputStream()
-            exec {
+            objects.newInstance(ExecOperationsProvider::class).execOperations.exec {
                 executable("${rootDir}\\tools\\vswhere.exe")
                 args("-latest", "-property", "installationPath", "-products", "*")
                 standardOutput = stdout
@@ -128,7 +128,7 @@ val compileDotNet by tasks.registering {
         val executable: String by setBuildTool.get().extra
         val arguments = (setBuildTool.get().extra["args"] as List<String>).toMutableList()
         arguments.add("/t:Restore;Rebuild")
-        exec {
+        objects.newInstance(ExecOperationsProvider::class).execOperations.exec {
             executable(executable)
             args(arguments)
             workingDir(rootDir)
@@ -138,7 +138,7 @@ val compileDotNet by tasks.registering {
 
 val testDotNet by tasks.registering {
     doLast {
-        exec {
+        objects.newInstance(ExecOperationsProvider::class).execOperations.exec {
             executable("dotnet")
             args("test", DotnetSolution,"--logger","GitHubActions")
             workingDir(rootDir)
@@ -166,7 +166,7 @@ tasks.buildPlugin {
         arguments.add("/p:PackageOutputPath=${rootDir}/output")
         arguments.add("/p:PackageReleaseNotes=${changeNotes}")
         arguments.add("/p:PackageVersion=${version}")
-        exec {
+        objects.newInstance(ExecOperationsProvider::class).execOperations.exec {
             executable(executable)
             args(arguments)
             workingDir(rootDir)
@@ -218,7 +218,7 @@ tasks.publishPlugin {
     token.set(PublishToken)
 
     doLast {
-        exec {
+        objects.newInstance(ExecOperationsProvider::class).execOperations.exec {
             executable("dotnet")
             args("nuget", "push", "output/${DotnetPluginId}.${version}.nupkg", "--api-key", PublishToken, "--source", "https://plugins.jetbrains.com")
             workingDir(rootDir)
@@ -242,4 +242,9 @@ artifacts {
     }) {
         builtBy(Constants.Tasks.INITIALIZE_INTELLIJ_PLATFORM_PLUGIN)
     }
+}
+
+interface ExecOperationsProvider {
+    @get:Inject
+    val execOperations: ExecOperations
 }

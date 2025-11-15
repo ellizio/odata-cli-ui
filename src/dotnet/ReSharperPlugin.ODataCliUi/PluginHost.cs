@@ -54,8 +54,8 @@ public sealed class PluginHost : IDisposable
     {
         var tool = cache.ToolGlobalCache.GetGlobalTool(Constants.MicrosoftODataCliPackageId)?.FirstOrDefault();
         _odataCliTool = tool is null
-            ? _odataCliTool = new DotnetToolDefinition(false, null)
-            : _odataCliTool = new DotnetToolDefinition(true, new DotnetToolVersionDefinition(tool.Version.Major, tool.Version.Minor, tool.Version.Patch));
+            ? new DotnetToolDefinition(false, null)
+            : new DotnetToolDefinition(true, new DotnetToolVersionDefinition(tool.Version.Major, tool.Version.Minor, tool.Version.Patch));
     }
 
     public void Dispose()
