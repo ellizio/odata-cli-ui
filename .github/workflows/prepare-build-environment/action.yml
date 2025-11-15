@@ -3,6 +3,13 @@ description: "Prepare build environment"
 runs:
   using: "composite"
   steps:
+    - name: Clear disk space
+      uses: insightsengineering/disk-space-reclaimer@v1
+      with:
+        tools-cache: false
+        dotnet: false
+        large-packages: false
+
     - name: Setup JDK
       uses: actions/setup-java@v4
       with:
