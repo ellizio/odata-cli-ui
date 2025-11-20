@@ -59,7 +59,7 @@ class OpenCliDialogAction : AnAction() {
     {
         var consoleView: ConsoleView?
         withContext(Dispatchers.EDT) {
-            consoleView = CliToolWindowManager.getInstance(project).instantiateConsole()
+            consoleView = CliToolWindowManager.getInstance(project).instantiateConsole(model.serviceName.get())
         }
 
         val odataCliCommand = model.buildODataCliCommand()
