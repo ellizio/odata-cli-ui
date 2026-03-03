@@ -27,7 +27,7 @@ class CliDialogModel(project: Project, private val actionMetadata: ActionMetadat
 
     init {
         odataCliTool = project.solution.protocolModel.getODataCliTool.sync(Unit)
-        dotnetCliPath = project.solution.dotNetActiveRuntimeModel.activeRuntime.valueOrNull?.dotNetCliExePath
+        dotnetCliPath = project.solution.dotNetActiveRuntimeModel.activeRuntime.valueOrNull?.dotNetCliExePath?.value
 
         atLeast031 = odataCliTool.version?.greaterOrEquals(0, 3, 1) ?: false
     }
