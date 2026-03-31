@@ -33,7 +33,7 @@ fun AnActionEvent.toMetadata(): ActionMetadata? {
         throw IllegalStateException("Selected item not supported")
     }
 
-    val projectPath = (descriptor.location as RdCustomLocation).customLocation
+    val projectPath = (descriptor.location as RdCustomLocation).customLocation.value
 
     return ActionMetadata(descriptor.name, projectPath)
 }

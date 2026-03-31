@@ -50,7 +50,7 @@ dependencies {
 }
 
 tasks.wrapper {
-    gradleVersion = "8.8"
+    gradleVersion = "9.4.0"
     distributionType = Wrapper.DistributionType.ALL
     distributionUrl = "https://cache-redirector.jetbrains.com/services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
@@ -78,15 +78,14 @@ tasks.compileKotlin {
 
 intellijPlatform {
     pluginVerification {
-        cliPath = File("/libs/verifier-cli-1.398-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier
+        cliPath = File("./libs/verifier-cli-1.401-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier/releases
         ides {
-            create(IntelliJPlatformType.Rider, "2025.3")
-            create(IntelliJPlatformType.Rider, "2025.3.0.1")
+            create(IntelliJPlatformType.Rider, "2026.1")
         }
     }
 
     signing {
-        cliPath = File("./libs/marketplace-zip-signer-cli-0.1.43.jar") // https://github.com/JetBrains/marketplace-zip-signer
+        cliPath = File("./libs/marketplace-zip-signer-cli-0.1.43.jar") // https://github.com/JetBrains/marketplace-zip-signer/releases
         certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
         privateKey = providers.environmentVariable("PRIVATE_KEY")
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
