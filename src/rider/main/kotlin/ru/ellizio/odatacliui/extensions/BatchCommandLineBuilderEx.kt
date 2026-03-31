@@ -1,6 +1,5 @@
 package ru.ellizio.odatacliui.extensions
 
-import ru.ellizio.odatacliui.Constants
 import ru.ellizio.odatacliui.terminal.builders.BatchCommandLineBuilder
 
 fun BatchCommandLineBuilder.dotnetAddPackageCommand(dotnetExePath: String?, csprojPath: String, packageId: String): BatchCommandLineBuilder {
@@ -8,5 +7,4 @@ fun BatchCommandLineBuilder.dotnetAddPackageCommand(dotnetExePath: String?, cspr
         .withParameter(csprojPath)
         .withParameter("package")
         .withParameter(packageId)
-        .withParameter("-s", Constants.NUGET_SOURCE)
 }
