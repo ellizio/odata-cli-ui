@@ -32,7 +32,9 @@ public sealed class PluginHost : IDisposable
         dotnetToolsTracker.DotnetToolsCacheChanged += OnDotnetToolsCacheChanged;
         dotnetToolsTracker.Start();
     }
-    
+
+    private DotnetToolDefinition GetODataCliTool(Lifetime lifetime, Unit unit) => _odataCliTool;
+
     private Task AddEmbeddedResourceAsync(Lifetime lifetime, EmbeddedResourceDefinition definition)
     {
         IProject project;
@@ -41,14 +43,12 @@ public sealed class PluginHost : IDisposable
 
         if (project is null)
             return Task.CompletedTask;
-        
+
         var modifier = new ProjectModifier(project);
         modifier.AddEmbeddedResource(definition.Include);
 
         return Task.CompletedTask;
     }
-
-    private DotnetToolDefinition GetODataCliTool(Lifetime lifetime, Unit unit) => _odataCliTool;
 
     private void OnDotnetToolsCacheChanged(DotNetToolCache cache)
     {
@@ -58,9 +58,5 @@ public sealed class PluginHost : IDisposable
             : new DotnetToolDefinition(true, new DotnetToolVersionDefinition(tool.Version.Major, tool.Version.Minor, tool.Version.Patch));
     }
 
-    public void Dispose()
-    {
-        if (_dotnetToolsTracker is not null)
-            _dotnetToolsTracker.DotnetToolsCacheChanged -= OnDotnetToolsCacheChanged;
-    }
+    public void Dispose() => _dotnetToolsTracker?.DotnetToolsCacheChanged -= OnDotnetToolsCacheChanged;
 }
