@@ -9,14 +9,13 @@ using NUnit.Framework;
 
 [assembly: Apartment(ApartmentState.STA)]
 
-namespace ReSharperPlugin.ODataCliUi.Tests
-{
-    [ZoneDefinition]
-    public class ODataCliUiTestEnvironmentZone : ITestsEnvZone, IRequire<PsiFeatureTestZone>, IRequire<IODataCliUiZone> { }
+namespace ReSharperPlugin.ODataCliUi.Tests;
 
-    [ZoneMarker]
-    public class ZoneMarker : IRequire<ICodeEditingZone>, IRequire<ILanguageCSharpZone>, IRequire<ODataCliUiTestEnvironmentZone> { }
+[ZoneDefinition]
+public class ODataCliUiTestEnvironmentZone : ITestsEnvZone, IRequire<PsiFeatureTestZone>, IRequire<IODataCliUiZone>;
 
-    [SetUpFixture]
-    public class ODataCliUiTestsAssembly : ExtensionTestEnvironmentAssembly<ODataCliUiTestEnvironmentZone> { }
-}
+[ZoneMarker]
+public class ZoneMarker : IRequire<ICodeEditingZone>, IRequire<ILanguageCSharpZone>, IRequire<ODataCliUiTestEnvironmentZone>;
+
+[SetUpFixture]
+public class ODataCliUiTestsAssembly : ExtensionTestEnvironmentAssembly<ODataCliUiTestEnvironmentZone>;
