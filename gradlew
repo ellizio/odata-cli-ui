@@ -122,30 +122,30 @@ JVM_TEMP_FILE=$BUILD_DIR/gradle-jvm-temp.tar.gz
 if [ "$darwin" = "true" ]; then
     case $JVM_ARCH in
     x86_64)
-        JVM_URL=https://download.oracle.com/java/21/archive/jdk-21.0.9_macos-x64_bin.tar.gz
-        JVM_TARGET_DIR=$BUILD_DIR/jdk-21.0.9_macos-x64_bin-1bcf04
+        JVM_URL=https://download.oracle.com/java/25/archive/jdk-25.0.3_macos-x64_bin.tar.gz
+        JVM_TARGET_DIR=$BUILD_DIR/jdk-25.0.3_macos-x64_bin-1bcf05
         ;;
     arm64)
-        JVM_URL=https://download.oracle.com/java/21/archive/jdk-21.0.9_macos-aarch64_bin.tar.gz
-        JVM_TARGET_DIR=$BUILD_DIR/jdk-21.0.9_macos-aarch64_bin-297fa3
+        JVM_URL=https://download.oracle.com/java/25/archive/jdk-25.0.3_macos-aarch64_bin.tar.gz
+        JVM_TARGET_DIR=$BUILD_DIR/jdk-25.0.3_macos-aarch64_bin-297fa4
         ;;
     *) 
         die "Unknown architecture $JVM_ARCH"
         ;;
     esac
 elif [ "$cygwin" = "true" ] || [ "$msys" = "true" ]; then
-    JVM_URL=https://download.oracle.com/java/21/archive/jdk-21.0.9_windows-x64_bin.zip
-    JVM_TARGET_DIR=$BUILD_DIR/jdk-21.0.9_windows-x64_bin-d6ede6
+    JVM_URL=https://download.oracle.com/java/25/archive/jdk-25.0.3_windows-x64_bin.zip
+    JVM_TARGET_DIR=$BUILD_DIR/jdk-25.0.3_windows-x64_bin-d6ede7
 else
     JVM_ARCH=$(linux$(getconf LONG_BIT) uname -m)
      case $JVM_ARCH in
         x86_64)
-            JVM_URL=https://download.oracle.com/java/21/archive/jdk-21.0.9_linux-x64_bin.tar.gz
-            JVM_TARGET_DIR=$BUILD_DIR/jdk-21.0.9_linux-x64_bin-9324af
+            JVM_URL=https://download.oracle.com/java/25/archive/jdk-25.0.3_linux-x64_bin.tar.gz
+            JVM_TARGET_DIR=$BUILD_DIR/jdk-25.0.3_linux-x64_bin-9324b0
             ;;
         aarch64)
-            JVM_URL=https://download.oracle.com/java/21/archive/jdk-21.0.9_linux-aarch64_bin.tar.gz
-            JVM_TARGET_DIR=$BUILD_DIR/jdk-21.0.9_linux-aarch64_bin-319da7
+            JVM_URL=https://download.oracle.com/java/25/archive/jdk-25.0.3_linux-aarch64_bin.tar.gz
+            JVM_TARGET_DIR=$BUILD_DIR/jdk-25.0.3_linux-aarch64_bin-319da8
             ;;
         *) 
             die "Unknown architecture $JVM_ARCH"

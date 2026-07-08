@@ -43,9 +43,7 @@ dependencies {
         rider(ProductVersion) { useInstaller = false }
         jetbrainsRuntime()
 
-        // TODO: add plugins
-        // bundledPlugin("org.jetbrains.plugins.terminal")
-        // bundledPlugin("com.jetbrains.ChooseRuntime:1.0.9")
+        bundledModule("intellij.rider.rdclient.dotnet")
     }
 }
 
@@ -68,19 +66,19 @@ sourceSets {
 }
 
 tasks.compileJava {
-    sourceCompatibility = JavaVersion.VERSION_21.toString()
-    targetCompatibility = JavaVersion.VERSION_21.toString()
+    sourceCompatibility = JavaVersion.VERSION_25.toString()
+    targetCompatibility = JavaVersion.VERSION_25.toString()
 }
 
 tasks.compileKotlin {
-    compilerOptions { jvmTarget = JvmTarget.JVM_21 }
+    compilerOptions { jvmTarget = JvmTarget.JVM_25 }
 }
 
 intellijPlatform {
     pluginVerification {
-        cliPath = File("./libs/verifier-cli-1.401-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier/releases
+        cliPath = File("./libs/verifier-cli-1.409-all.jar") // https://github.com/JetBrains/intellij-plugin-verifier/releases
         ides {
-            create(IntelliJPlatformType.Rider, "2026.1")
+            create(IntelliJPlatformType.Rider, "2026.2")
         }
     }
 
