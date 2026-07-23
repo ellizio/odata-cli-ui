@@ -57,20 +57,20 @@ class OpenCliDialogAction : AnAction() {
 
     private suspend fun executeCommand(project: Project, metadata: ActionMetadata, model: CliDialogModel)
     {
-        var consoleView: ConsoleView?
+        val consoleView: ConsoleView
         withContext(Dispatchers.EDT) {
             consoleView = CliToolWindowManager.getInstance(project).instantiateConsole(model.serviceName.get())
         }
 
         val odataCliCommand = model.buildODataCliCommand()
         try {
-            val odataCliExecutor = CommandLineExecutor(project, odataCliCommand, consoleView!!)
+            val odataCliExecutor = CommandLineExecutor(project, odataCliCommand, consoleView)
             val success = odataCliExecutor.execute()
             if (!success)
                 return
         }
         catch (t: Throwable) {
-            consoleView!!.printCommandError(t, odataCliCommand.commandLineString)
+            consoleView.printCommandError(t, odataCliCommand.commandLineString)
             return
         }
 
