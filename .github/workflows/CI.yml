@@ -9,14 +9,14 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
 
       - name: Prepare Build Environment
         uses: ./.github/workflows/prepare-build-environment
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: |
             build/gradle-jvm
@@ -28,14 +28,14 @@ jobs:
       - run: ./gradlew :protocol:rdgen --no-daemon
       - run: ./gradlew :buildPlugin -PBuildConfiguration=Release --no-daemon
 
-      - uses: mad9000/actions-find-and-replace-string@5
+      - uses: mad9000/actions-find-and-replace-string@6
         id: fix_branch_name
         with:
           source: ${{ github.ref_name }}
           find: '/'
           replace: '-'
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: github.ref_name == 'master' || github.ref_name == 'dev'
         with:
           name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}-${{ github.run_number }}

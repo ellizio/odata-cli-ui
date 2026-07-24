@@ -9,7 +9,7 @@ jobs:
   Release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
 
@@ -24,14 +24,14 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
 
-      - uses: mad9000/actions-find-and-replace-string@5
+      - uses: mad9000/actions-find-and-replace-string@6
         id: fix_branch_name
         with:
           source: ${{ github.ref_name }}
           find: 'release/'
           replace: ''
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: odata-cli-ui.${{ steps.fix_branch_name.outputs.value }}
           path: output
