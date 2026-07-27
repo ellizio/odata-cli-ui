@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.EDT
+import com.intellij.openapi.progress.currentThreadCoroutineScope
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.rd.util.*
 import com.intellij.openapi.vfs.VirtualFileManager
@@ -21,6 +22,7 @@ import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.isProject
 import com.jetbrains.rider.projectView.workspace.isWebReferenceFolder
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.ellizio.odatacliui.extensions.printCommandError
 import ru.ellizio.odatacliui.models.ActionMetadata
@@ -33,7 +35,7 @@ class OpenCliDialogAction : AnAction() {
 
         val dialogModel = CliDialogModel(project, actionMetadata)
 
-        project.lifetime.launchOnUi {
+        currentThreadCoroutineScope().launch {
             val dialog = CliDialog(dialogModel)
             if (dialog.showAndGet()) {
                 withContext(Dispatchers.IO) {
@@ -74,7 +76,7 @@ class OpenCliDialogAction : AnAction() {
             return
         }
 
-        project.lifetime.launchOnUi {
+        withContext(Dispatchers.EDT) {
             project.solution.protocolModel.addEmbeddedResource.startSuspending(project.lifetime, EmbeddedResourceDefinition(metadata.projectName, model.getCsdlPath()))
         }
 

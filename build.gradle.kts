@@ -150,7 +150,7 @@ tasks.buildPlugin {
             into("${rootDir}/output")
         }
 
-        // TODO: See also org.jetbrains.changelog: https://github.com/JetBrains/gradle-changelog-plugin
+        // https://github.com/JetBrains/gradle-changelog-plugin
         val changelogText = file("${rootDir}/CHANGELOG.md").readText()
         val changelogMatches = Regex("(?s)(-.+?)(?=##|$)").findAll(changelogText)
         val changeNotes = changelogMatches.map {
@@ -177,7 +177,7 @@ tasks.runIde {
 }
 
 tasks.patchPluginXml {
-    // TODO: See also org.jetbrains.changelog: https://github.com/JetBrains/gradle-changelog-plugin
+    // https://github.com/JetBrains/gradle-changelog-plugin
     val changelogText = file("${rootDir}/CHANGELOG.md").readText()
     val changelogMatches = Regex("(?s)(-.+?)(?=##|\$)").findAll(changelogText)
 
@@ -193,7 +193,7 @@ tasks.prepareSandbox {
     val dllFiles = listOf(
         "$outputFolder/${DotnetPluginId}.dll",
         "$outputFolder/${DotnetPluginId}.pdb",
-        // TODO: add additional assemblies
+        // add additional assemblies
     )
 
     dllFiles.forEach { f ->
